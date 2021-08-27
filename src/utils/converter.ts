@@ -1,11 +1,29 @@
 import { BigNumber, utils } from 'ethers'
-import { FieldType, Method } from 'src/types/abi'
+import { Field, FieldType, Method } from 'src/types/abi'
 
 const IS_NUMBER = /^u?int/
 export const convert = (type: FieldType, input: string) => {
   if (IS_NUMBER.test(type)) return BigNumber.from(input)
   return input
 }
+
+const convertValue = (value: any) => {
+  if (BigNumber.isBigNumber(value)) {
+    return value.toBigInt().toString()
+  }
+  return value
+}
+
+export const convertOutput = (types: Field[], output: any[]) =>
+  types.map(({ name }) => name).filter(Boolean).length
+    ? types.reduce(
+        (prev, { name, type }, idx) => ({
+          ...prev,
+          [name || `${type}:${idx}`]: convertValue(output[idx]),
+        }),
+        {},
+      )
+    : output
 
 export const toOption = (
   stateMutability: Method['stateMutability'],

@@ -4,6 +4,7 @@ import { unitLabel, UNITS } from 'src/constants/misc'
 import { useSettingsStore } from 'src/stores/settings'
 import { fontWeightRegular, fontWeightSemiBold } from 'src/styles/font'
 import { FieldType, Method, MethodDoc } from 'src/types/abi'
+import { convertOutput } from 'src/utils/converter'
 import styled from 'styled-components'
 import { ctaStyle, ErrorMessage, Output, Unit } from './styles'
 
@@ -16,7 +17,7 @@ export const Form: VFC<{
   const { settings } = useSettingsStore()
   const methods = useForm()
   const { handleSubmit, register } = methods
-  const [output, setOutput] = useState()
+  const [output, setOutput] = useState<any>()
   const [errorMessage, setErrorMessage] = useState('')
   return (
     <FormProvider key={method.name} {...methods}>
@@ -67,8 +68,25 @@ export const Form: VFC<{
               <button disabled={!active}>Call</button>
             </Inputs>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            {output != null && (
-              <Output>{JSON.stringify(output, null, 4)}</Output>
+            {output != null ? (
+              <>
+                <Output>
+                  {JSON.stringify(
+                    convertOutput(method.outputs, output),
+                    null,
+                    4,
+                  )}
+                </Output>
+                <RawResponse>
+                  <summary>Raw response</summary>
+                  <Output>{JSON.stringify(output, null, 4)}</Output>
+                </RawResponse>
+              </>
+            ) : (
+              <Output>
+                {'Response Type:\n\n'}
+                {JSON.stringify(method.outputs, null, 4)}
+              </Output>
             )}
           </CollapsableDiv>
         </Section>
@@ -138,6 +156,17 @@ const Caption = styled.summary`
       opacity: 0.5;
       cursor: not-allowed;
     }
+  }
+`
+const RawResponse = styled.details`
+  margin-top: 12px;
+  summary {
+    cursor: pointer;
+    margin: 0 4px;
+    font-size: 18px;
+  }
+  ${Output} {
+    margin-top: 0;
   }
 `
 const Inputs = styled.div`
