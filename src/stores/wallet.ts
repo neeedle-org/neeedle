@@ -42,9 +42,16 @@ export const useWalletStore = (): {
   ) => Promise<void>
   disconnect: (walletType: WalletType) => void
 } => {
-  const { library, error, account, active, chainId, activate, deactivate } =
-    useWeb3React()
-
+  const {
+    library,
+    error,
+    account,
+    active,
+    chainId,
+    connector,
+    activate,
+    deactivate,
+  } = useWeb3React()
   const activeWalletType = useRecoilValue(activeWalletTypeAtom)
   const setActiveWalletType = useSetRecoilState(activeWalletTypeAtom)
 
@@ -85,7 +92,7 @@ export const useWalletStore = (): {
     if (library) {
       const provider = library as ethers.providers.Web3Provider
       setWeb3Provider(provider)
-      setSigner((library as ethers.providers.Web3Provider).getSigner())
+      setSigner(provider.getSigner())
     }
   }, [library, setWeb3Provider, setSigner])
 
