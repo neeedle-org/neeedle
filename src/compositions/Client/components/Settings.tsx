@@ -132,14 +132,10 @@ const MiscForm = () => {
           onChange={({ target: { value } }) =>
             setSettings({ unit: value as typeof UNITS[number]['value'] })
           }
+          value={settings.unit}
         >
           {UNITS.map(({ value, label }) => (
-            <option
-              key={value}
-              value={value}
-              label={label}
-              selected={value === settings.unit}
-            >
+            <option key={value} value={value} label={label}>
               {label}
             </option>
           ))}

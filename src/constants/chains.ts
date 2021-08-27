@@ -75,5 +75,5 @@ export const CHAIN_INFO: ChainInfo = {
   },
 }
 
-export const getExplorer = (chainId: BuiltInChainId | undefined) =>
-  CHAIN_INFO[chainId || 1].explorer
+export const getExplorer = (chainId: number | undefined) =>
+  CHAIN_INFO[chainId || 1]?.explorer
