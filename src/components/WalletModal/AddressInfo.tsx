@@ -52,14 +52,18 @@ export const AddressInfo: VFC<{
                 {isCopied ? <IconCheck /> : <IconCopy />}
                 <span>{isCopied ? 'Copied!' : 'Copy'}</span>
               </div>
-              <a
-                href={explorer?.address(address)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <IconExternalLink />
-                <span>Explorer</span>
-              </a>
+              {explorer ? (
+                <a
+                  href={explorer?.address(address)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <IconExternalLink />
+                  <span>Explorer</span>
+                </a>
+              ) : (
+                <p>Explorer Not Found.</p>
+              )}
             </ActionAreaDiv>
             <ButtonAreaDiv>
               {activeWalletType == 'WalletConnect' && (
