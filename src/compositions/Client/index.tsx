@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { useMemo } from 'react'
 import { githubIconSrc } from 'src/assets/images'
 import { Header } from 'src/components/Header'
+import { SEO } from 'src/components/SEO'
 import { Link } from 'src/elements/Link'
 import { useWalletStore } from 'src/stores'
 import { useContractStore } from 'src/stores/contract'
@@ -15,25 +16,32 @@ export const Client = () => {
   const { abi, contract } = useContractStore()
   const isCallable = useMemo(() => !!(active && contract), [contract, active])
   return (
-    <Layout>
-      <Header />
-      <main>
-        <Settings />
-        <h2>Functions</h2>
-        {abi ? (
-          <ContractForms abi={abi} active={isCallable} call={contract?.call} />
-        ) : (
-          <EmptyMessage>No ABI loaded.</EmptyMessage>
-        )}
-      </main>
-      <footer>
-        <ImageDiv>
-          <Link href={REPOSITORY_URL}>
-            <Image src={githubIconSrc} layout="fill" alt="github" />
-          </Link>
-        </ImageDiv>
-      </footer>
-    </Layout>
+    <>
+      <SEO />
+      <Layout>
+        <Header />
+        <main>
+          <Settings />
+          <h2>Functions</h2>
+          {abi ? (
+            <ContractForms
+              abi={abi}
+              active={isCallable}
+              call={contract?.call}
+            />
+          ) : (
+            <EmptyMessage>No ABI loaded.</EmptyMessage>
+          )}
+        </main>
+        <footer>
+          <ImageDiv>
+            <Link href={REPOSITORY_URL}>
+              <Image src={githubIconSrc} layout="fill" alt="github" />
+            </Link>
+          </ImageDiv>
+        </footer>
+      </Layout>
+    </>
   )
 }
 

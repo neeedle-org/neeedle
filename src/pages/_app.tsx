@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { VFC } from 'react'
 import { RecoilRoot } from 'recoil'
+import { Favicon } from 'src/components/Favicon'
 import { getLibrary } from 'src/external'
 import { WalletInitializer } from 'src/initializers'
 import { GlobalStyles } from 'src/styles/global-styles'
@@ -19,6 +20,7 @@ const MyApp: VFC<AppProps> = ({ Component, pageProps, router: { asPath } }) => {
       <Web3ReactProvider getLibrary={getLibrary}>
         <RecoilRoot>
           <WalletInitializer>
+            <Favicon />
             <ThemeProvider theme={DEFAULT_THEME}>
               <Head>
                 <meta
