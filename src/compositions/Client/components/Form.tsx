@@ -120,7 +120,7 @@ const Doc = styled.p`
   display: block;
   font-size: 18px;
   font-weight: ${fontWeightRegular};
-  line-height: 1;
+  line-height: 1.33;
 `
 
 const Type = styled.span`
