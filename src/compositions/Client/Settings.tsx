@@ -7,7 +7,7 @@ import { UNITS } from 'src/constants/misc'
 import { useContractStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
 import styled from 'styled-components'
-import { ctaStyle, ErrorMessage, Output, Unit } from './components'
+import { ctaStyle, ErrorMessage, OutputMini, Unit } from './components'
 
 export const Settings: VFC = () => {
   const { replace } = useRouter()
@@ -77,7 +77,16 @@ export const Settings: VFC = () => {
         output={abiJsonLabel}
         errorMessage={JSON.stringify(abiErrorMessage?.message, null, 4) || ''}
       >
-        <AbiControl>
+        <Control>
+          <input
+            value={abiJsonUrl}
+            onChange={({ target: { value } }) => setAbiJsonUrl(value)}
+            placeholder="ABI URL"
+          />
+          <button onClick={() => fetchAbi(abiJsonUrl)} disabled={!abiJsonUrl}>
+            Load
+          </button>
+          or
           <label>
             Select File
             <input
@@ -90,32 +99,25 @@ export const Settings: VFC = () => {
               hidden
             />
           </label>
-          or
-          <button onClick={() => fetchAbi(abiJsonUrl)} disabled={!abiJsonUrl}>
-            Load
-          </button>
-          from URL:
-          <input
-            value={abiJsonUrl}
-            onChange={({ target: { value } }) => setAbiJsonUrl(value)}
-          />
-        </AbiControl>
+        </Control>
       </SettingsFormItem>
       <AddressForm
         title="Contarct Address"
         output={contractAddress || ''}
         errorMessage={addressErrorMessage}
       >
-        <input
-          value={editingAddress}
-          onChange={({ target: { value } }) => setEditingAddress(value)}
-        />
-        <button
-          onClick={() => updateContractAddress(editingAddress)}
-          disabled={!ethers.utils.isAddress(editingAddress)}
-        >
-          Set
-        </button>
+        <Control>
+          <input
+            value={editingAddress}
+            onChange={({ target: { value } }) => setEditingAddress(value)}
+          />
+          <button
+            onClick={() => updateContractAddress(editingAddress)}
+            disabled={!ethers.utils.isAddress(editingAddress)}
+          >
+            Set
+          </button>
+        </Control>
       </AddressForm>
       <MiscForm />
     </Layout>
@@ -127,7 +129,7 @@ const MiscForm = () => {
   return (
     <MiscDiv>
       <div>
-        <h3>Input Unit</h3>
+        <h4>Input Unit</h4>
         <select
           onChange={({ target: { value } }) =>
             setSettings({ unit: value as typeof UNITS[number]['value'] })
@@ -142,7 +144,7 @@ const MiscForm = () => {
         </select>
       </div>
       <div>
-        <h3>Gas Limit</h3>
+        <h4>Gas Limit</h4>
         <div>
           <input
             value={settings.gasLimit}
@@ -175,13 +177,13 @@ const SettingsFormItem: VFC<SettingsFormItemProps> = ({
     <div className={className}>
       <h3>{title}</h3>
       {output && (
-        <Output>
+        <OutputMini>
           {output.startsWith('http') ? (
             <Link href={output}>{output}</Link>
           ) : (
             output
           )}
-        </Output>
+        </OutputMini>
       )}
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {children}
@@ -200,20 +202,18 @@ const Layout = styled.div`
 `
 const AddressForm = styled(SettingsFormItem)`
   input {
-    margin-top: 12px;
     display: block;
     width: 100%;
     padding: 4px 8px;
   }
   button {
-    margin-top: 12px;
     ${ctaStyle};
   }
 `
-const AbiControl = styled.div`
-  margin-top: 12px;
+const Control = styled.div`
   display: flex;
   align-items: center;
+  margin: 12px -8px 0;
   > * {
     margin: 0 8px;
   }
@@ -233,5 +233,8 @@ const MiscDiv = styled.div`
     margin: 0 20px;
     display: flex;
     flex-direction: column;
+  }
+  h4 {
+    font-size: 20px;
   }
 `

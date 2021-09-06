@@ -15,6 +15,9 @@ export const Output = styled.div`
     }
   }
 `
+export const OutputMini = styled(Output)`
+  width: fit-content;
+`
 
 export const ErrorMessage = styled(Output)`
   color: ${({ theme: { error } }) => error};

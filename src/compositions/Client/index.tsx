@@ -18,7 +18,7 @@ export const Client = () => {
       {abi ? (
         <ContractForms abi={abi} active={isCallable} call={contract?.call} />
       ) : (
-        <p>No ABI loaded.</p>
+        <EmptyMessage>No ABI loaded.</EmptyMessage>
       )}
     </Layout>
   )
@@ -39,4 +39,8 @@ const Layout = styled.div`
     margin-top: 20px;
     font-size: 28px;
   }
+`
+
+const EmptyMessage = styled.p`
+  margin: 24px 0;
 `
