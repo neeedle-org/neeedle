@@ -137,18 +137,18 @@ const CollapsableDiv = styled.div`
   border-top: 1px solid;
 `
 const Caption = styled.summary`
-  display: block;
   cursor: pointer;
+  padding: 0 16px;
   h4 {
+    display: inline;
     font-size: 24px;
     font-weight: ${fontWeightSemiBold};
     padding: 4px 8px;
-    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   ${Doc} {
-    margin: 4px 16px;
+    margin: 4px 32px;
   }
   button {
     display: block;
