@@ -1,11 +1,15 @@
 import { VFC } from 'react'
 import { NeeedleLogo } from 'src/assets/svgs'
+import { Link } from 'src/elements/Link'
 import { fontWeightBold } from 'src/styles/font'
+import { TOP } from 'src/utils/router'
 import styled from 'styled-components'
 
 export const Logo: VFC = () => (
   <LogoDiv>
-    <NeeedleLogo />
+    <Link href={TOP}>
+      <NeeedleLogo />
+    </Link>
   </LogoDiv>
 )
 
