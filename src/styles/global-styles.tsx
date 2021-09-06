@@ -19,14 +19,10 @@ const Styles = createGlobalStyle`
     font-weight: ${fontWeightRegular};
     background-color:  ${({ theme: { bgPrimary } }) => bgPrimary};
     color: ${({ theme: { primary } }) => primary};
-    min-height: 100vh;
     > div#__next {
-      height: 100%;
       display: flex;
       flex-flow: column;
-      main {
-        flex: 1;
-      }
+      min-height: 100vh;
     }
     div {
       ${noScrollbar};
