@@ -1,2 +1,2 @@
 export * from './Form'
-export * from './Settings'
+export * from './styles'

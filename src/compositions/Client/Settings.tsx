@@ -7,7 +7,7 @@ import { unitLabel, UNITS } from 'src/constants/misc'
 import { useContractStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
 import styled from 'styled-components'
-import { ctaStyle, ErrorMessage, Output, Unit } from './styles'
+import { ctaStyle, ErrorMessage, Output, Unit } from './components'
 
 export const Settings: VFC = () => {
   const { replace } = useRouter()

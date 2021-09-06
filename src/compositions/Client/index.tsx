@@ -3,8 +3,8 @@ import { Header } from 'src/components/Header'
 import { useWalletStore } from 'src/stores'
 import { useContractStore } from 'src/stores/contract'
 import styled from 'styled-components'
-import { Settings } from './components'
 import { ContractForms } from './ContractForms'
+import { Settings } from './Settings'
 
 export const Client = () => {
   const { active } = useWalletStore()
