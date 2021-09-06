@@ -138,12 +138,12 @@ const CollapsableDiv = styled.div`
 `
 const Caption = styled.summary`
   cursor: pointer;
-  padding: 0 16px;
+  padding: 8px 16px;
   h4 {
     display: inline;
     font-size: 24px;
     font-weight: ${fontWeightSemiBold};
-    padding: 4px 8px;
+    padding: 8px 8px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
