@@ -46,8 +46,8 @@ const ContractForms: VFC<ContractFormsProps> = memo(({ abi, active, call }) => (
         doc={abi.findDoc(each)}
       />
     ))}
-    <h2>PURE FUNCTIONS</h2>
-    {abi?.purefunctions.map((each) => (
+    <h2>VIEW</h2>
+    {abi?.views.map((each) => (
       <Form
         key={each.name}
         method={each}
@@ -56,8 +56,8 @@ const ContractForms: VFC<ContractFormsProps> = memo(({ abi, active, call }) => (
         doc={abi.findDoc(each)}
       />
     ))}
-    <h2>VIEW</h2>
-    {abi?.views.map((each) => (
+    <h2>PURE FUNCTIONS</h2>
+    {abi?.purefunctions.map((each) => (
       <Form
         key={each.name}
         method={each}

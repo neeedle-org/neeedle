@@ -72,22 +72,6 @@ export const Settings: VFC = () => {
   return (
     <Layout>
       <h2>Settings</h2>
-      <AddressForm
-        title="Contarct Address"
-        output={contractAddress || ''}
-        errorMessage={addressErrorMessage}
-      >
-        <input
-          value={editingAddress}
-          onChange={({ target: { value } }) => setEditingAddress(value)}
-        />
-        <button
-          onClick={() => updateContractAddress(editingAddress)}
-          disabled={!editingAddress}
-        >
-          Set
-        </button>
-      </AddressForm>
       <SettingsFormItem
         title="ABI"
         output={abiJsonLabel}
@@ -95,7 +79,7 @@ export const Settings: VFC = () => {
       >
         <AbiControl>
           <label>
-            Upload
+            Select File
             <input
               type="file"
               onChange={({ target: { files } }) => {
@@ -117,6 +101,22 @@ export const Settings: VFC = () => {
           />
         </AbiControl>
       </SettingsFormItem>
+      <AddressForm
+        title="Contarct Address"
+        output={contractAddress || ''}
+        errorMessage={addressErrorMessage}
+      >
+        <input
+          value={editingAddress}
+          onChange={({ target: { value } }) => setEditingAddress(value)}
+        />
+        <button
+          onClick={() => updateContractAddress(editingAddress)}
+          disabled={!editingAddress}
+        >
+          Set
+        </button>
+      </AddressForm>
       <MiscForm />
     </Layout>
   )
