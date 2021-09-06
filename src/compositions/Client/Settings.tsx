@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import querystring from 'querystring'
 import { ReactNode, useEffect, useState, VFC } from 'react'
-import { unitLabel, UNITS } from 'src/constants/misc'
+import { UNITS } from 'src/constants/misc'
 import { useContractStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
 import styled from 'styled-components'
@@ -150,7 +150,7 @@ const MiscForm = () => {
               setSettings({ gasLimit: value })
             }
           />
-          <Unit>{unitLabel(settings.unit)}</Unit>
+          <Unit>WEI</Unit>
         </div>
       </div>
     </MiscDiv>
@@ -174,13 +174,15 @@ const SettingsFormItem: VFC<SettingsFormItemProps> = ({
   return (
     <div className={className}>
       <h3>{title}</h3>
-      <Output>
-        {output.startsWith('http') ? (
-          <Link href={output}>{output}</Link>
-        ) : (
-          output
-        )}
-      </Output>
+      {output && (
+        <Output>
+          {output.startsWith('http') ? (
+            <Link href={output}>{output}</Link>
+          ) : (
+            output
+          )}
+        </Output>
+      )}
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {children}
     </div>
