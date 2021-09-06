@@ -143,12 +143,12 @@ const Caption = styled.summary`
     display: inline;
     font-size: 24px;
     font-weight: ${fontWeightSemiBold};
-    padding: 8px 8px;
+    padding: 8px 0;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   ${Doc} {
-    margin: 4px 32px;
+    margin: 4px 24px;
   }
   button {
     display: block;
