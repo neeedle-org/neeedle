@@ -22,8 +22,8 @@ export class ContractModel {
   readonly call = async (
     method: Method,
     data: { [x: string]: string },
-    gasLimit = DEFAULT_GAS_LIMIT,
-    unit = 'wei',
+    gasLimit?: string,
+    unit?: string,
   ) => {
     const func = this.contract[method.name]
     if (!func) throw new Error(`Function not found: ${method.name}`)
@@ -31,7 +31,12 @@ export class ContractModel {
       const input = data.args[idx]
       return convert(type, input)
     })
-    const option = toOption(method.stateMutability, gasLimit, data.value, unit)
+    const option = toOption(
+      method.stateMutability,
+      gasLimit || DEFAULT_GAS_LIMIT,
+      data.value,
+      unit || 'wei',
+    )
     return func(...args, option)
   }
 }

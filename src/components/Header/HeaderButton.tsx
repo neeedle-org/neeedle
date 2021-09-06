@@ -1,5 +1,4 @@
 import { ButtonHTMLAttributes, VFC } from 'react'
-import { primaryColor, white } from 'src/styles/colors'
 import { fontWeightMedium } from 'src/styles/font'
 import styled, { css } from 'styled-components'
 
@@ -25,24 +24,24 @@ const HeaderButtonElement = styled.button<ButtonStyleProps>`
   width: 152px;
   height: 34px;
   border-radius: 17px;
-  border: 1px solid ${primaryColor};
+  border: 1px solid ${({ theme: { primary } }) => primary};
   font-size: 14px;
   font-weight: ${fontWeightMedium};
   text-align: center;
   :focus,
   :hover {
-    background-color: ${primaryColor};
-    color: ${white};
+    background-color: ${({ theme: { primary } }) => primary};
+    color: ${({ theme: { bgPrimary } }) => bgPrimary};
   }
   ${({ hasAccount }) =>
     hasAccount &&
     css`
-      background-color: ${primaryColor};
-      color: ${white};
+      background-color: ${({ theme: { primary } }) => primary};
+      color: ${({ theme: { bgPrimary } }) => bgPrimary};
       border: unset;
       :focus,
       :hover {
-        background-color: ${primaryColor}b0;
+        background-color: ${({ theme: { primary } }) => primary}b0;
       }
     `}
 `

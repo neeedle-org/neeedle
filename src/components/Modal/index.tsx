@@ -1,5 +1,4 @@
 import React, { ReactNode, VFC } from 'react'
-import { black, white } from 'src/styles/colors'
 import { breakpoint, flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
 
@@ -31,7 +30,7 @@ const Overlay = styled.div`
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background-color: ${black}80;
+  background-color: #00000080;
   z-index: 1000;
 `
 
@@ -42,7 +41,7 @@ const Contents = styled.div`
   padding: 40px 53px 48px 53px;
   position: relative;
   border-radius: 32px;
-  background-color: ${white}80;
+  background-color: #ffffff80;
   backdrop-filter: blur(30px) brightness(150%);
   overflow-y: auto;
 

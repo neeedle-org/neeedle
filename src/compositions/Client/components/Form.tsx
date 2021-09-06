@@ -33,7 +33,7 @@ export const Form: VFC<{
       >
         <Section>
           <Caption>
-            <h3>{method.name}</h3>
+            <h4>{method.name}</h4>
             <Doc>{doc?.details || ''}</Doc>
           </Caption>
           <CollapsableDiv>
@@ -120,7 +120,7 @@ const Doc = styled.p`
   display: block;
   font-size: 18px;
   font-weight: ${fontWeightRegular};
-  line-height: 1;
+  line-height: 1.33;
 `
 
 const Type = styled.span`
@@ -137,18 +137,18 @@ const CollapsableDiv = styled.div`
   border-top: 1px solid;
 `
 const Caption = styled.summary`
-  display: block;
   cursor: pointer;
-  h3 {
+  padding: 8px 16px;
+  h4 {
+    display: inline;
     font-size: 24px;
     font-weight: ${fontWeightSemiBold};
-    padding: 4px 8px;
-    flex: 1;
+    padding: 8px 0;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   ${Doc} {
-    margin: 4px 16px;
+    margin: 4px 24px;
   }
   button {
     display: block;

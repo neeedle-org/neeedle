@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import querystring from 'querystring'
 import { ReactNode, useEffect, useState, VFC } from 'react'
-import { unitLabel, UNITS } from 'src/constants/misc'
+import { UNITS } from 'src/constants/misc'
 import { useContractStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
 import styled from 'styled-components'
-import { ctaStyle, ErrorMessage, Output, Unit } from './styles'
+import { ctaStyle, ErrorMessage, OutputMini, Unit } from './components'
 
 export const Settings: VFC = () => {
   const { replace } = useRouter()
@@ -72,30 +72,23 @@ export const Settings: VFC = () => {
   return (
     <Layout>
       <h2>Settings</h2>
-      <AddressForm
-        title="Contarct Address"
-        output={contractAddress || ''}
-        errorMessage={addressErrorMessage}
-      >
-        <input
-          value={editingAddress}
-          onChange={({ target: { value } }) => setEditingAddress(value)}
-        />
-        <button
-          onClick={() => updateContractAddress(editingAddress)}
-          disabled={!editingAddress}
-        >
-          Set
-        </button>
-      </AddressForm>
       <SettingsFormItem
         title="ABI"
         output={abiJsonLabel}
         errorMessage={JSON.stringify(abiErrorMessage?.message, null, 4) || ''}
       >
-        <AbiControl>
+        <Control>
+          <input
+            value={abiJsonUrl}
+            onChange={({ target: { value } }) => setAbiJsonUrl(value)}
+            placeholder="ABI URL"
+          />
+          <button onClick={() => fetchAbi(abiJsonUrl)} disabled={!abiJsonUrl}>
+            Load
+          </button>
+          or
           <label>
-            Upload
+            Select File
             <input
               type="file"
               onChange={({ target: { files } }) => {
@@ -106,17 +99,26 @@ export const Settings: VFC = () => {
               hidden
             />
           </label>
-          or
-          <button onClick={() => fetchAbi(abiJsonUrl)} disabled={!abiJsonUrl}>
-            Load
-          </button>
-          from URL:
-          <input
-            value={abiJsonUrl}
-            onChange={({ target: { value } }) => setAbiJsonUrl(value)}
-          />
-        </AbiControl>
+        </Control>
       </SettingsFormItem>
+      <AddressForm
+        title="Contarct Address"
+        output={contractAddress || ''}
+        errorMessage={addressErrorMessage}
+      >
+        <Control>
+          <input
+            value={editingAddress}
+            onChange={({ target: { value } }) => setEditingAddress(value)}
+          />
+          <button
+            onClick={() => updateContractAddress(editingAddress)}
+            disabled={!ethers.utils.isAddress(editingAddress)}
+          >
+            Set
+          </button>
+        </Control>
+      </AddressForm>
       <MiscForm />
     </Layout>
   )
@@ -127,7 +129,7 @@ const MiscForm = () => {
   return (
     <MiscDiv>
       <div>
-        <h3>Input Unit</h3>
+        <h4>Input Unit</h4>
         <select
           onChange={({ target: { value } }) =>
             setSettings({ unit: value as typeof UNITS[number]['value'] })
@@ -142,7 +144,7 @@ const MiscForm = () => {
         </select>
       </div>
       <div>
-        <h3>Gas Limit</h3>
+        <h4>Gas Limit</h4>
         <div>
           <input
             value={settings.gasLimit}
@@ -150,7 +152,7 @@ const MiscForm = () => {
               setSettings({ gasLimit: value })
             }
           />
-          <Unit>{unitLabel(settings.unit)}</Unit>
+          <Unit>WEI</Unit>
         </div>
       </div>
     </MiscDiv>
@@ -174,13 +176,15 @@ const SettingsFormItem: VFC<SettingsFormItemProps> = ({
   return (
     <div className={className}>
       <h3>{title}</h3>
-      <Output>
-        {output.startsWith('http') ? (
-          <Link href={output}>{output}</Link>
-        ) : (
-          output
-        )}
-      </Output>
+      {output && (
+        <OutputMini>
+          {output.startsWith('http') ? (
+            <Link href={output}>{output}</Link>
+          ) : (
+            output
+          )}
+        </OutputMini>
+      )}
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {children}
     </div>
@@ -188,10 +192,6 @@ const SettingsFormItem: VFC<SettingsFormItemProps> = ({
 }
 
 const Layout = styled.div`
-  h3 {
-    margin-top: 16px;
-    font-size: 24px;
-  }
   input,
   select {
     border: 1px solid;
@@ -202,20 +202,18 @@ const Layout = styled.div`
 `
 const AddressForm = styled(SettingsFormItem)`
   input {
-    margin-top: 12px;
     display: block;
     width: 100%;
     padding: 4px 8px;
   }
   button {
-    margin-top: 12px;
     ${ctaStyle};
   }
 `
-const AbiControl = styled.div`
-  margin-top: 12px;
+const Control = styled.div`
   display: flex;
   align-items: center;
+  margin: 12px -8px 0;
   > * {
     margin: 0 8px;
   }
@@ -235,5 +233,8 @@ const MiscDiv = styled.div`
     margin: 0 20px;
     display: flex;
     flex-direction: column;
+  }
+  h4 {
+    font-size: 20px;
   }
 `
