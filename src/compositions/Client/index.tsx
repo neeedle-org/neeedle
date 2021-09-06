@@ -1,10 +1,10 @@
-import { memo, useMemo, VFC } from 'react'
+import { useMemo } from 'react'
 import { Header } from 'src/components/Header'
-import { ABIModel } from 'src/models'
 import { useWalletStore } from 'src/stores'
 import { useContractStore } from 'src/stores/contract'
 import styled from 'styled-components'
-import { Form, Settings } from './components'
+import { Settings } from './components'
+import { ContractForms } from './ContractForms'
 
 export const Client = () => {
   const { active } = useWalletStore()
@@ -14,60 +14,15 @@ export const Client = () => {
     <Layout>
       <Header />
       <Settings />
-      <ContractForms abi={abi} active={isCallable} call={contract?.call} />
+      <h2>Functions</h2>
+      {abi ? (
+        <ContractForms abi={abi} active={isCallable} call={contract?.call} />
+      ) : (
+        <p>No ABI loaded.</p>
+      )}
     </Layout>
   )
 }
-
-type ContractFormsProps = {
-  abi: ABIModel | undefined
-  active: boolean | undefined
-  call: ((...args: any[]) => Promise<any>) | undefined
-}
-const ContractForms: VFC<ContractFormsProps> = memo(({ abi, active, call }) => (
-  <>
-    <h2>PAYABLE</h2>
-    {abi?.payables.map((each) => (
-      <Form
-        key={each.name}
-        method={each}
-        active={active}
-        call={call}
-        doc={abi.findDoc(each)}
-      />
-    ))}
-    <h2>NON-PAYABLE</h2>
-    {abi?.nonpayables.map((each) => (
-      <Form
-        key={each.name}
-        method={each}
-        active={active}
-        call={call}
-        doc={abi.findDoc(each)}
-      />
-    ))}
-    <h2>VIEW</h2>
-    {abi?.views.map((each) => (
-      <Form
-        key={each.name}
-        method={each}
-        active={active}
-        call={call}
-        doc={abi.findDoc(each)}
-      />
-    ))}
-    <h2>PURE FUNCTIONS</h2>
-    {abi?.purefunctions.map((each) => (
-      <Form
-        key={each.name}
-        method={each}
-        active={active}
-        call={call}
-        doc={abi.findDoc(each)}
-      />
-    ))}
-  </>
-))
 
 const Layout = styled.div`
   width: 100%;
@@ -78,5 +33,10 @@ const Layout = styled.div`
   h2 {
     margin-top: 40px;
     font-size: 32px;
+    border-bottom: 1px solid ${({ theme: { primary } }) => primary}40;
+  }
+  h3 {
+    margin-top: 20px;
+    font-size: 28px;
   }
 `

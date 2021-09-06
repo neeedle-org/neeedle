@@ -33,7 +33,7 @@ export const Form: VFC<{
       >
         <Section>
           <Caption>
-            <h3>{method.name}</h3>
+            <h4>{method.name}</h4>
             <Doc>{doc?.details || ''}</Doc>
           </Caption>
           <CollapsableDiv>
@@ -139,7 +139,7 @@ const CollapsableDiv = styled.div`
 const Caption = styled.summary`
   display: block;
   cursor: pointer;
-  h3 {
+  h4 {
     font-size: 24px;
     font-weight: ${fontWeightSemiBold};
     padding: 4px 8px;

@@ -188,10 +188,6 @@ const SettingsFormItem: VFC<SettingsFormItemProps> = ({
 }
 
 const Layout = styled.div`
-  h3 {
-    margin-top: 16px;
-    font-size: 24px;
-  }
   input,
   select {
     border: 1px solid;
