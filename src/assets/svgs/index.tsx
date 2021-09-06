@@ -7,6 +7,7 @@ import IconExternalLink from './icon_external_link.svg'
 import IconLoading from './icon_loading.svg'
 import IconMetamask from './icon_metamask.svg'
 import IconWalletConnect from './icon_walletconnect.svg'
+import NeeedleLogo from './neeedle_logo.svg'
 
 export {
   IconBack,
@@ -18,4 +19,5 @@ export {
   IconCheck,
   IconLoading,
   IconEth,
+  NeeedleLogo,
 }
