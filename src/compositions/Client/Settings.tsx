@@ -112,7 +112,7 @@ export const Settings: VFC = () => {
         />
         <button
           onClick={() => updateContractAddress(editingAddress)}
-          disabled={!editingAddress}
+          disabled={!ethers.utils.isAddress(editingAddress)}
         >
           Set
         </button>
