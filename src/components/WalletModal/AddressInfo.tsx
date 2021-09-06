@@ -9,7 +9,6 @@ import { Heading, SubHeading } from 'src/components/Modal/styles'
 import { getExplorer } from 'src/constants/chains'
 import { useWalletConnect } from 'src/external'
 import { useWalletStore } from 'src/stores'
-import { primaryColor, white } from 'src/styles/colors'
 import { fontWeightMedium } from 'src/styles/font'
 import { defaultShadow, flexCenter } from 'src/styles/mixins'
 import { shortenAddress } from 'src/utils/address'
@@ -96,14 +95,14 @@ const StyledCtaButton = styled.button`
   letter-spacing: 0.016em;
   font-weight: ${fontWeightMedium};
   text-align: center;
-  background: ${white};
+  background: ${({ theme: { bgPrimary } }) => bgPrimary};
   border-radius: 16px;
-  border: 1px solid ${primaryColor};
+  border: 1px solid ${({ theme: { primary } }) => primary};
   box-shadow: ${defaultShadow};
   :hover,
   :focus {
-    background: ${primaryColor};
-    color: ${white};
+    background: ${({ theme: { primary } }) => primary};
+    color: ${({ theme: { bgPrimary } }) => bgPrimary};
   }
 `
 

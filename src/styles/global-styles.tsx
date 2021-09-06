@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components'
-import { primaryColor, white } from './colors'
 import { fontFamilyEn, fontWeightRegular } from './font'
 import { noScrollbar } from './mixins'
 
@@ -18,8 +17,8 @@ const Styles = createGlobalStyle`
   body {
     font-family: ${fontFamilyEn};
     font-weight: ${fontWeightRegular};
-    background-color: ${white};
-    color: ${primaryColor};
+    background-color:  ${({ theme: { bgPrimary } }) => bgPrimary};
+    color: ${({ theme: { primary } }) => primary};
     min-height: 100vh;
     > div#__next {
       height: 100%;

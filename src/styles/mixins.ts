@@ -1,5 +1,4 @@
 import { css } from 'styled-components'
-import { black } from './colors'
 
 export const noScrollbar = css`
   ::-webkit-scrollbar {
@@ -18,7 +17,7 @@ export const absoluteFill = css`
   margin: auto;
 `
 
-export const defaultShadow = `0 3px 2px ${black}80`
+export const defaultShadow = `0 3px 2px #00000080`
 
 export const flexCenter = css`
   display: flex;

@@ -8,16 +8,10 @@ import {
 import { useMetamask } from 'src/external/wallet/metamask'
 import { useWalletConnect } from 'src/external/wallet/wallet_connect'
 import { WalletType } from 'src/stores'
-import {
-  errorColor,
-  gray,
-  primaryColor,
-  purple,
-  white,
-} from 'src/styles/colors'
 import { fontWeightMedium } from 'src/styles/font'
 import { breakpoint } from 'src/styles/mixins'
 import styled, { css } from 'styled-components'
+import { errorColor, gray, primaryColor, purple, white } from './colors'
 
 export const ConnectingWallet: VFC<{
   onBack: () => void
