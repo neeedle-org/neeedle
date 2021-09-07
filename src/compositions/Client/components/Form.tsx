@@ -1,5 +1,6 @@
 import { forwardRef, InputHTMLAttributes, useState, VFC } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useWalletModal } from 'src/components/WalletModal'
 import { unitLabel, UNITS } from 'src/constants/misc'
 import { useSettingsStore } from 'src/stores/settings'
 import { fontWeightRegular, fontWeightSemiBold } from 'src/styles/font'
@@ -14,9 +15,15 @@ export const Form: VFC<{
   active?: boolean
   call?: (...args: any[]) => Promise<any>
 }> = ({ method, doc, active, call }) => {
+  const { open } = useWalletModal()
   const { settings } = useSettingsStore()
   const methods = useForm()
-  const { handleSubmit, register } = methods
+  const {
+    handleSubmit,
+    register,
+    clearErrors,
+    formState: { errors, isSubmitSuccessful },
+  } = methods
   const [output, setOutput] = useState<any>()
   const [errorMessage, setErrorMessage] = useState('')
   return (
@@ -49,6 +56,7 @@ export const Form: VFC<{
                   fieldType="uint256"
                   doc="transferring amount"
                   unit={settings.unit}
+                  hasError={!isSubmitSuccessful && !!errors['value']}
                   {...register(`value`, { required: true })}
                 />
               )}
@@ -61,11 +69,20 @@ export const Form: VFC<{
                     label={name}
                     fieldType={each.type}
                     doc={doc?.params?.[name]}
+                    hasError={
+                      !isSubmitSuccessful &&
+                      !!(errors[`args`] && errors[`args`][idx])
+                    }
                     {...register(`args[${idx}]`, { required: true })}
                   />
                 )
               })}
-              <button disabled={!active}>Call</button>
+              <button
+                type={active ? 'submit' : 'button'}
+                onClick={active ? undefined : open}
+              >
+                Call
+              </button>
             </Inputs>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             {output != null ? (
@@ -100,19 +117,20 @@ type InputProps = {
   fieldType: FieldType
   doc?: string
   unit?: typeof UNITS[number]['value']
+  hasError?: boolean
 } & InputHTMLAttributes<HTMLInputElement>
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, fieldType, doc, unit, ...props }, ref) => (
-    <label>
+  ({ label, fieldType, doc, unit, hasError, ...props }, ref) => (
+    <InputLabel hasError={hasError}>
       <div>
         {label}: <Type>{fieldType}</Type>
         <Doc>{doc}</Doc>
       </div>
       <div>
-        <input {...props} ref={ref} />
+        <input {...props} ref={ref} placeholder={hasError ? 'Required' : ''} />
         {unit && <Unit>{unitLabel(unit)}</Unit>}
       </div>
-    </label>
+    </InputLabel>
   ),
 )
 
@@ -169,25 +187,31 @@ const RawResponse = styled.details`
     margin-top: 0;
   }
 `
+const InputLabel = styled.label<{ hasError?: boolean }>`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  color: ${({ hasError, theme: { primary, error } }) =>
+    hasError ? error : primary};
+  input {
+    color: ${({ theme: { primary } }) => primary};
+    border: 1px solid;
+    padding: 4px 8px;
+  }
+  > * {
+    width: 100%;
+    max-width: 360px;
+  }
+`
+
 const Inputs = styled.div`
   display: flex;
   padding: 12px 56px 24px;
   flex-direction: column;
-  label {
-    width: 100%;
+  ${InputLabel} {
     margin-top: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    input {
-      border: 1px solid;
-      padding: 4px 8px;
-    }
-    > * {
-      width: 100%;
-      max-width: 360px;
-    }
   }
   ${Doc} {
     margin: 0 8px;
@@ -198,6 +222,7 @@ const Inputs = styled.div`
     ${ctaStyle};
   }
 `
+
 const NoParams = styled.label`
   opacity: 0.75;
   font-style: italic;

@@ -1,11 +1,12 @@
 import { ethers } from 'ethers'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import querystring from 'querystring'
 import { ReactNode, useEffect, useState, VFC } from 'react'
 import { UNITS } from 'src/constants/misc'
+import { Link } from 'src/elements/Link'
 import { useContractStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
+import { parseUrl } from 'src/utils/urlParser'
 import styled from 'styled-components'
 import { ctaStyle, ErrorMessage, OutputMini, Unit } from './components'
 
@@ -49,7 +50,7 @@ export const Settings: VFC = () => {
   }
 
   const fetchAbi = async (url: string) =>
-    fetch(url).then(
+    fetch(parseUrl(url)).then(
       (res) =>
         res.text().then((data) => {
           updateAbi(data, url)

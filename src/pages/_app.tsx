@@ -5,6 +5,7 @@ import { VFC } from 'react'
 import { RecoilRoot } from 'recoil'
 import { Favicon } from 'src/components/Favicon'
 import { getLibrary } from 'src/external'
+import { ModalPortal } from 'src/hooks/useModal'
 import { WalletInitializer } from 'src/initializers'
 import { GlobalStyles } from 'src/styles/global-styles'
 import 'src/styles/globals.css'
@@ -31,6 +32,7 @@ const MyApp: VFC<AppProps> = ({ Component, pageProps, router: { asPath } }) => {
                 <link rel="canonical" href={pageUrl} />
               </Head>
               <GlobalStyles />
+              <ModalPortal />
               <Component {...pageProps} />
             </ThemeProvider>
           </WalletInitializer>
