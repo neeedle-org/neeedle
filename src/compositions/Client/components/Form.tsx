@@ -1,5 +1,6 @@
 import { forwardRef, InputHTMLAttributes, useState, VFC } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useWalletModal } from 'src/components/WalletModal'
 import { unitLabel, UNITS } from 'src/constants/misc'
 import { useSettingsStore } from 'src/stores/settings'
 import { fontWeightRegular, fontWeightSemiBold } from 'src/styles/font'
@@ -14,6 +15,7 @@ export const Form: VFC<{
   active?: boolean
   call?: (...args: any[]) => Promise<any>
 }> = ({ method, doc, active, call }) => {
+  const { open } = useWalletModal()
   const { settings } = useSettingsStore()
   const methods = useForm()
   const { handleSubmit, register } = methods
@@ -65,7 +67,12 @@ export const Form: VFC<{
                   />
                 )
               })}
-              <button disabled={!active}>Call</button>
+              <button
+                type={active ? 'submit' : 'button'}
+                onClick={active ? undefined : open}
+              >
+                Call
+              </button>
             </Inputs>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             {output != null ? (
