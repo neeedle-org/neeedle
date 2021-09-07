@@ -2,14 +2,14 @@ import { IconBack } from 'src/assets/svgs'
 import { fontWeightBold } from 'src/styles/font'
 import styled from 'styled-components'
 
-export const Heading = styled.h2`
+export const Heading = styled.p`
   font-size: 32px;
   font-weight: ${fontWeightBold};
   line-height: calc(40 / 32);
   text-align: center;
 `
 
-export const SubHeading = styled.h3`
+export const SubHeading = styled.p`
   font-size: 20px;
   text-align: center;
   letter-spacing: -0.04em;

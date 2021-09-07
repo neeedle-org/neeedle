@@ -1,18 +1,20 @@
 import React, { VFC } from 'react'
-import { Modal, ModalProps } from 'src/components/Modal'
+import { ModalContentProps, useGlobalModal } from 'src/hooks/useModal'
+import { useWalletStore } from 'src/stores'
 import { AddressInfo } from './AddressInfo'
 import { SelectWallet } from './SelectWallet'
 
-export const WalletModal: VFC<
-  Required<ModalProps> & { account: string | null | undefined }
-> = ({ account, isOpen, closeModal }) => {
+const WalletModal: VFC<ModalContentProps> = ({ closeModal }) => {
+  const { account } = useWalletStore()
   return (
-    <Modal isOpen={isOpen} closeModal={closeModal}>
+    <>
       {account ? (
         <AddressInfo address={account} closeModal={closeModal} />
       ) : (
         <SelectWallet closeModal={closeModal} />
       )}
-    </Modal>
+    </>
   )
 }
+
+export const useWalletModal = () => useGlobalModal(WalletModal)

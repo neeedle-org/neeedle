@@ -1,12 +1,24 @@
-import { VFC } from 'react'
+import React, { VFC } from 'react'
+import { NeeedleLogo } from 'src/assets/svgs'
+import { Link } from 'src/elements/Link'
 import { fontWeightBold } from 'src/styles/font'
+import { TOP } from 'src/utils/router'
 import styled from 'styled-components'
-
-export const Logo: VFC = () => <LogoDiv>Neeedle</LogoDiv>
+export const Logo: VFC = () => (
+  <LogoDiv>
+    <Link href={TOP}>
+      <NeeedleLogo />
+    </Link>
+  </LogoDiv>
+)
 
 const LogoDiv = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   font-size: 40px;
   font-weight: ${fontWeightBold};
+  svg {
+    height: 1em;
+    width: 4em;
+  }
 `

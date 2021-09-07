@@ -1,9 +1,9 @@
 import React, { VFC } from 'react'
 import { WalletType } from 'src/stores'
-import { black, purple, white } from 'src/styles/colors'
 import { fontWeightMedium } from 'src/styles/font'
 import { flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
+import { black, purple, white } from './colors'
 
 type Props = {
   type: WalletType
