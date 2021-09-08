@@ -4,8 +4,10 @@ export const Output = styled.div`
   margin-top: 12px;
   width: 100%;
   padding: 12px;
+  border-radius: 4px;
   font-size: 14px;
   min-height: 40px;
+  color: ${({ theme: { codeBlock } }) => codeBlock};
   background-color: ${({ theme: { bgCodeBlock } }) => bgCodeBlock};
   word-break: break-all;
   white-space: pre-wrap;

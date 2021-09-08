@@ -17,11 +17,11 @@ type Theme = {
 
 export const DEFAULT_THEME: Theme = {
   primary: '#000000',
-  bgPrimary: '#FFFFFF',
+  bgPrimary: '#fbfef9',
   borderPrimary: '#000000',
-  codeBlock: '#000000',
-  bgCodeBlock: 'lightgray',
-  error: 'darkred',
+  codeBlock: '#0C6291',
+  bgCodeBlock: '#000004',
+  error: '#a63446',
   buttonPrimary: '#FFFFFF',
   bgButtonPrimary: 'darkslategray',
 } as const

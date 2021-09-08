@@ -196,6 +196,7 @@ const Layout = styled.div`
   input,
   select {
     border: 1px solid;
+    border-radius: 8px;
     padding: 4px 8px;
     overflow: hidden;
     text-overflow: ellipsis;
