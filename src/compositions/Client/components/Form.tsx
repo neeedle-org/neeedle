@@ -136,7 +136,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 const Doc = styled.p`
   display: block;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: ${fontWeightRegular};
   line-height: 1.33;
 `
@@ -150,6 +150,16 @@ const Section = styled.details`
   margin-top: 20px;
   font-size: 24px;
   border: 1px solid;
+  border-radius: 4px;
+  box-shadow: 0 3px 2px #00000080;
+  transition: all 0.25s ease-in-out;
+  :hover {
+    box-shadow: none;
+    border-color: ${({ theme: { primary } }) => primary}80;
+  }
+  ${Output} {
+    border-radius: 0px;
+  }
 `
 const CollapsableDiv = styled.div`
   border-top: 1px solid;
@@ -198,6 +208,7 @@ const InputLabel = styled.label<{ hasError?: boolean }>`
   input {
     color: ${({ theme: { primary } }) => primary};
     border: 1px solid;
+    border-radius: 8px;
     padding: 4px 8px;
   }
   > * {

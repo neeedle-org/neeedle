@@ -17,7 +17,7 @@ export const absoluteFill = css`
   margin: auto;
 `
 
-export const defaultShadow = `0 3px 2px #00000080`
+export const defaultShadow = `0 3px 6px #00000080`
 
 export const flexCenter = css`
   display: flex;

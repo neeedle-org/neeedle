@@ -237,6 +237,7 @@ const MiscDiv = styled.div`
     flex-direction: column;
   }
   h4 {
-    font-size: 20px;
+    font-size: 18px;
+    margin-bottom: 4px;
   }
 `

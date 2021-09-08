@@ -1,0 +1,109 @@
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-Light-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-Light-WebS.woff')
+      format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-LightItalic-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-LightItalic-WebS.woff')
+      format('woff');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-Regular-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-Regular-WebS.woff')
+      format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-RegularItalic-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-RegularItalic-WebS.woff')
+      format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-Medium-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-Medium-WebS.woff')
+      format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-MediumItalic-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-MediumItalic-WebS.woff')
+      format('woff');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-Semibold-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-Semibold-WebS.woff')
+      format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-SemiboldItalic-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-SemiboldItalic-WebS.woff')
+      format('woff');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-Bold-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-Bold-WebS.woff')
+      format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'EuclidCircularA';
+  src: url('https://assets.bridges.inc/fonts/EuclidCircularA/woff2/EuclidCircularA-BoldItalic-WebS.woff2')
+      format('woff2'),
+    url('https://assets.bridges.inc/fonts/EuclidCircularA/woff/EuclidCircularA-BoldItalic-WebS.woff')
+      format('woff');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
