@@ -1,11 +1,14 @@
+import { defaultShadow } from 'src/styles/mixins'
 import styled, { css } from 'styled-components'
 
 export const Output = styled.div`
   margin-top: 12px;
   width: 100%;
   padding: 12px;
+  border-radius: 4px;
   font-size: 14px;
   min-height: 40px;
+  color: ${({ theme: { codeBlock } }) => codeBlock};
   background-color: ${({ theme: { bgCodeBlock } }) => bgCodeBlock};
   word-break: break-all;
   white-space: pre-wrap;
@@ -20,11 +23,11 @@ export const OutputMini = styled(Output)`
 `
 
 export const ErrorMessage = styled(Output)`
-  color: ${({ theme: { error } }) => error};
+  color: ${({ theme: { codeBlockError } }) => codeBlockError};
 `
 
 export const ctaStyle = css`
-  background-color: ${({ theme: { bgButtonPrimary } }) => bgButtonPrimary};
+  background: ${({ theme: { bgButtonPrimary } }) => bgButtonPrimary};
   color: ${({ theme: { buttonPrimary } }) => buttonPrimary};
   border-radius: 17px;
   width: 152px;
@@ -33,9 +36,15 @@ export const ctaStyle = css`
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: ${defaultShadow};
+  transition: all 0.25s ease-in-out;
+  :hover {
+    box-shadow: none;
+  }
   :disabled {
     cursor: not-allowed;
     opacity: 0.5;
+    box-shadow: none;
   }
 `
 export const Unit = styled.span`

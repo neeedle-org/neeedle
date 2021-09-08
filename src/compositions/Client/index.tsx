@@ -6,6 +6,7 @@ import { SEO } from 'src/components/SEO'
 import { Link } from 'src/elements/Link'
 import { useWalletStore } from 'src/stores'
 import { useContractStore } from 'src/stores/contract'
+import { fontWeightMedium, fontWeightSemiBold } from 'src/styles/font'
 import { REPOSITORY_URL } from 'src/utils/router'
 import styled from 'styled-components'
 import { ContractForms } from './ContractForms'
@@ -60,11 +61,14 @@ const Layout = styled.div`
   h2 {
     margin-top: 40px;
     font-size: 32px;
+    font-weight: ${fontWeightSemiBold};
+    letter-spacing: -0.04em;
     border-bottom: 1px solid ${({ theme: { primary } }) => primary}40;
   }
   h3 {
     margin-top: 20px;
-    font-size: 28px;
+    font-size: 24px;
+    font-weight: ${fontWeightMedium};
   }
   footer {
     margin: 60px auto 0;

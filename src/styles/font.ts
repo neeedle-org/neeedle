@@ -1,5 +1,5 @@
 export const fontFamilyEn =
-  '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif'
+  'EuclidCircularA, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif'
 export const fontWeightExtraLight = 200
 export const fontWeightLight = 300
 export const fontWeightRegular = 400
