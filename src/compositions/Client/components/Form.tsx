@@ -153,7 +153,8 @@ const Section = styled.details`
   border-radius: 4px;
   box-shadow: 0 3px 2px #00000080;
   transition: all 0.25s ease-in-out;
-  :hover {
+  :hover,
+  &[open] {
     box-shadow: none;
     border-color: ${({ theme: { primary } }) => primary}80;
   }
