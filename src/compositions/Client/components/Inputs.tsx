@@ -1,5 +1,5 @@
 import { forwardRef, InputHTMLAttributes, VFC } from 'react'
-import { useForm } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { unitLabel, UNITS } from 'src/constants/misc'
 import { useSettingsStore } from 'src/stores/settings'
 import { FieldType, Method, MethodDoc } from 'src/types/abi'
@@ -16,11 +16,10 @@ export const Inputs: VFC<InputsProps & { className?: string }> = ({
   doc,
 }) => {
   const { settings } = useSettingsStore()
-  const methods = useForm()
   const {
     register,
     formState: { errors, isSubmitSuccessful },
-  } = methods
+  } = useFormContext()
   return (
     <>
       {!method.inputs.length && method.stateMutability !== 'payable' && (

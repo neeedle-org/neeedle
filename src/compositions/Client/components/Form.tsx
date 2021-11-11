@@ -4,9 +4,9 @@ import { useWalletModal } from 'src/components/WalletModal'
 import { useSettingsStore } from 'src/stores/settings'
 import { fontWeightSemiBold } from 'src/styles/font'
 import { Method, MethodDoc } from 'src/types/abi'
-import { convertOutput } from 'src/utils/converter'
 import styled from 'styled-components'
 import { Inputs } from './Inputs'
+import { Response } from './Response'
 import { ctaStyle, Doc, ErrorMessage, Output } from './styles'
 
 export type FormProps = {
@@ -21,22 +21,27 @@ export const Form: VFC<FormProps> = ({ method, doc, call, encodeToBytes }) => {
   const { settings } = useSettingsStore()
   const methods = useForm()
   const { handleSubmit, getValues } = methods
-  const [output, setOutput] = useState<any>()
+  const [response, setResponse] = useState<any>()
   const [bytesEncoded, setBytesEncoded] = useState<string>()
   const [errorMessage, setErrorMessage] = useState('')
+
+  const submit = (data: any) => {
+    if (!call) return
+    setBytesEncoded(undefined)
+    setResponse(undefined)
+    setErrorMessage('')
+    return call(method, data, settings.gasLimit, settings.unit)
+      .then(setResponse)
+      .catch((e) => setErrorMessage(JSON.stringify(e, null, 4)))
+  }
+  const encode = () => {
+    setErrorMessage('')
+    setResponse(undefined)
+    setBytesEncoded(encodeToBytes(method, getValues()))
+  }
   return (
     <FormProvider key={method.name} {...methods}>
-      <form
-        onSubmit={handleSubmit((data) => {
-          if (!call) return
-          setBytesEncoded(undefined)
-          setOutput(undefined)
-          setErrorMessage('')
-          return call(method, data, settings.gasLimit, settings.unit)
-            .then(setOutput)
-            .catch((e) => setErrorMessage(JSON.stringify(e, null, 4)))
-        })}
-      >
+      <form onSubmit={handleSubmit(submit)}>
         <Section>
           <Caption>
             <h4>{method.name}</h4>
@@ -47,13 +52,7 @@ export const Form: VFC<FormProps> = ({ method, doc, call, encodeToBytes }) => {
               <Inputs method={method} doc={doc} />
             </InputsDiv>
             <ButtonsDiv>
-              <button
-                type="button"
-                onClick={() =>
-                  encodeToBytes &&
-                  setBytesEncoded(encodeToBytes(method, getValues()))
-                }
-              >
+              <button type="button" onClick={encode}>
                 Encode
               </button>
               <button
@@ -63,30 +62,11 @@ export const Form: VFC<FormProps> = ({ method, doc, call, encodeToBytes }) => {
                 Call
               </button>
             </ButtonsDiv>
-            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
             {bytesEncoded && (
-              <Output>{`Bytes Encoded\n\n${bytesEncoded}`}</Output>
+              <Output>{`Bytes Encoded:\n\n${bytesEncoded}`}</Output>
             )}
-            {output != null ? (
-              <>
-                <Output>
-                  {JSON.stringify(
-                    convertOutput(method.outputs, output),
-                    null,
-                    4,
-                  )}
-                </Output>
-                <RawResponse>
-                  <summary>Raw response</summary>
-                  <Output>{JSON.stringify(output, null, 4)}</Output>
-                </RawResponse>
-              </>
-            ) : (
-              <Output>
-                {'Response Type:\n\n'}
-                {JSON.stringify(method.outputs, null, 4)}
-              </Output>
-            )}
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            {!bytesEncoded && <Response method={method} response={response} />}
           </CollapsableDiv>
         </Section>
       </form>
