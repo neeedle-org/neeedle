@@ -1,110 +1,72 @@
-import { forwardRef, InputHTMLAttributes, useState, VFC } from 'react'
+import { useState, VFC } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useWalletModal } from 'src/components/WalletModal'
-import { unitLabel, UNITS } from 'src/constants/misc'
 import { useSettingsStore } from 'src/stores/settings'
-import { fontWeightRegular, fontWeightSemiBold } from 'src/styles/font'
-import { FieldType, Method, MethodDoc } from 'src/types/abi'
-import { convertOutput } from 'src/utils/converter'
+import { fontWeightSemiBold } from 'src/styles/font'
+import { Method, MethodDoc } from 'src/types/abi'
 import styled from 'styled-components'
-import { ctaStyle, ErrorMessage, Output, Unit } from './styles'
+import { Inputs } from './Inputs'
+import { Response } from './Response'
+import { ctaStyle, Doc, ErrorMessage, Output } from './styles'
 
-export const Form: VFC<{
+export type FormProps = {
   method: Method
   doc?: MethodDoc
-  active?: boolean
   call?: (...args: any[]) => Promise<any>
-}> = ({ method, doc, active, call }) => {
+  encodeToBytes: (...args: any[]) => string
+}
+
+export const Form: VFC<FormProps> = ({ method, doc, call, encodeToBytes }) => {
   const { open } = useWalletModal()
   const { settings } = useSettingsStore()
   const methods = useForm()
-  const {
-    handleSubmit,
-    register,
-    clearErrors,
-    formState: { errors, isSubmitSuccessful },
-  } = methods
-  const [output, setOutput] = useState<any>()
+  const { handleSubmit, getValues } = methods
+  const [response, setResponse] = useState<any>()
+  const [bytesEncoded, setBytesEncoded] = useState<string>()
   const [errorMessage, setErrorMessage] = useState('')
+
+  const submit = (data: any) => {
+    if (!call) return
+    setBytesEncoded(undefined)
+    setResponse(undefined)
+    setErrorMessage('')
+    return call(method, data, settings.gasLimit, settings.unit)
+      .then(setResponse)
+      .catch((e) => setErrorMessage(JSON.stringify(e, null, 4)))
+  }
+  const encode = () => {
+    setErrorMessage('')
+    setResponse(undefined)
+    setBytesEncoded(encodeToBytes(method, getValues()))
+  }
   return (
     <FormProvider key={method.name} {...methods}>
-      <form
-        onSubmit={handleSubmit((data) => {
-          if (!call) return
-          setOutput(undefined)
-          setErrorMessage('')
-          return call(method, data, settings.gasLimit, settings.unit)
-            .then(setOutput)
-            .catch((e) => setErrorMessage(JSON.stringify(e, null, 4)))
-        })}
-      >
+      <form onSubmit={handleSubmit(submit)}>
         <Section>
           <Caption>
             <h4>{method.name}</h4>
             <Doc>{doc?.details || ''}</Doc>
           </Caption>
           <CollapsableDiv>
-            <Inputs>
-              {!method.inputs.length && method.stateMutability !== 'payable' && (
-                <NoParams>
-                  <p>No Params</p>
-                </NoParams>
-              )}
-              {method.stateMutability === 'payable' && (
-                <Input
-                  label="value"
-                  fieldType="uint256"
-                  doc="transferring amount"
-                  unit={settings.unit}
-                  hasError={!isSubmitSuccessful && !!errors['value']}
-                  {...register(`value`, { required: true })}
-                />
-              )}
-              {method.inputs.map((each, idx, arr) => {
-                const name =
-                  each.name || (arr.length > 1 ? `key${idx + 1}` : 'key')
-                return (
-                  <Input
-                    key={name}
-                    label={name}
-                    fieldType={each.type}
-                    doc={doc?.params?.[name]}
-                    hasError={
-                      !isSubmitSuccessful &&
-                      !!(errors[`args`] && errors[`args`][idx])
-                    }
-                    {...register(`args[${idx}]`, { required: true })}
-                  />
-                )
-              })}
+            <InputsDiv>
+              <Inputs method={method} doc={doc} />
+            </InputsDiv>
+            <ButtonsDiv>
+              <button type="button" onClick={encode}>
+                Encode
+              </button>
               <button
-                type={active ? 'submit' : 'button'}
-                onClick={active ? undefined : open}
+                type={call ? 'submit' : 'button'}
+                onClick={call ? undefined : open}
               >
                 Call
               </button>
-            </Inputs>
-            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            {output != null ? (
-              <>
-                <Output>
-                  {JSON.stringify(
-                    convertOutput(method.outputs, output),
-                    null,
-                    4,
-                  )}
-                </Output>
-                <RawResponse>
-                  <summary>Raw response</summary>
-                  <Output>{JSON.stringify(output, null, 4)}</Output>
-                </RawResponse>
-              </>
-            ) : (
-              <Output>
-                {'Response Type:\n\n'}
-                {JSON.stringify(method.outputs, null, 4)}
-              </Output>
+            </ButtonsDiv>
+            {bytesEncoded && (
+              <Output>{`Bytes Encoded:\n\n${bytesEncoded}`}</Output>
             )}
+            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            {!bytesEncoded && <Response method={method} response={response} />}
           </CollapsableDiv>
         </Section>
       </form>
@@ -112,56 +74,25 @@ export const Form: VFC<{
   )
 }
 
-type InputProps = {
-  label: string
-  fieldType: FieldType
-  doc?: string
-  unit?: typeof UNITS[number]['value']
-  hasError?: boolean
-} & InputHTMLAttributes<HTMLInputElement>
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, fieldType, doc, unit, hasError, ...props }, ref) => (
-    <InputLabel hasError={hasError}>
-      <div>
-        {label}: <Type>{fieldType}</Type>
-        <Doc>{doc}</Doc>
-      </div>
-      <div>
-        <input {...props} ref={ref} placeholder={hasError ? 'Required' : ''} />
-        {unit && <Unit>{unitLabel(unit)}</Unit>}
-      </div>
-    </InputLabel>
-  ),
-)
-
-const Doc = styled.p`
-  display: block;
-  font-size: 16px;
-  font-weight: ${fontWeightRegular};
-  line-height: 1.33;
+const InputsDiv = styled.div`
+  label {
+    margin-top: 8px;
+  }
+  ${Doc} {
+    margin: 0 8px;
+  }
 `
 
-const Type = styled.span`
-  font-size: 18px;
-  font-style: italic;
-`
-
-const Section = styled.details`
+const ButtonsDiv = styled.div`
   margin-top: 20px;
-  font-size: 24px;
-  border: 1px solid;
-  border-radius: 4px;
-  box-shadow: 0 3px 2px #00000080;
-  transition: all 0.25s ease-in-out;
-  :hover,
-  &[open] {
-    box-shadow: none;
-    border-color: ${({ theme: { primary } }) => primary}80;
-  }
-  ${Output} {
-    border-radius: 0px;
+  display: flex;
+  justify-content: flex-end;
+  > button {
+    margin-left: 24px;
+    ${ctaStyle};
   }
 `
+
 const CollapsableDiv = styled.div`
   border-top: 1px solid;
 `
@@ -198,44 +129,23 @@ const RawResponse = styled.details`
     margin-top: 0;
   }
 `
-const InputLabel = styled.label<{ hasError?: boolean }>`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  color: ${({ hasError, theme: { primary, error } }) =>
-    hasError ? error : primary};
-  input {
-    color: ${({ theme: { primary } }) => primary};
-    border: 1px solid;
-    border-radius: 8px;
-    padding: 4px 8px;
-  }
-  > * {
-    width: 100%;
-    max-width: 360px;
-  }
-`
 
-const Inputs = styled.div`
-  display: flex;
-  padding: 12px 56px 24px;
-  flex-direction: column;
-  ${InputLabel} {
-    margin-top: 8px;
+const Section = styled.details`
+  margin-top: 20px;
+  font-size: 24px;
+  border: 1px solid;
+  border-radius: 4px;
+  box-shadow: 0 3px 2px #00000080;
+  transition: all 0.25s ease-in-out;
+  :hover,
+  &[open] {
+    box-shadow: none;
+    border-color: ${({ theme: { primary } }) => primary}80;
   }
-  ${Doc} {
-    margin: 0 8px;
+  ${InputsDiv},${ButtonsDiv} {
+    padding: 12px 56px 24px;
   }
-  button {
-    margin-top: 20px;
-    margin-left: auto;
-    ${ctaStyle};
+  ${Output} {
+    border-radius: 0px;
   }
-`
-
-const NoParams = styled.label`
-  opacity: 0.75;
-  font-style: italic;
 `

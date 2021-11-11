@@ -32,7 +32,7 @@ export const useContractStore = () => {
   )
   const contract = useMemo(
     () =>
-      contractAddress && abi && signer
+      contractAddress && abi
         ? new ContractModel({
             address: contractAddress,
             abi: abi.abi,

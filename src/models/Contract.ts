@@ -10,13 +10,21 @@ export class ContractModel {
   constructor(props: {
     address: string
     abi: ABI
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider | undefined
   }) {
     this.contract = new Contract(
       props.address,
       props.abi,
       props.signerOrProvider,
     )
+  }
+
+  readonly encodeToBytes = (method: Method, data: { [x: string]: string }) => {
+    const args = method.inputs.map(({ type }, idx) => {
+      const input = data.args[idx]
+      return convert(type, input)
+    })
+    return this.contract.interface.encodeFunctionData(method.name, args)
   }
 
   readonly call = async (

@@ -1,3 +1,4 @@
+import { fontWeightRegular } from 'src/styles/font'
 import { defaultShadow } from 'src/styles/mixins'
 import styled, { css } from 'styled-components'
 
@@ -50,4 +51,11 @@ export const ctaStyle = css`
 export const Unit = styled.span`
   font-size: 14px;
   margin-left: 4px;
+`
+
+export const Doc = styled.p`
+  display: block;
+  font-size: 16px;
+  font-weight: ${fontWeightRegular};
+  line-height: 1.33;
 `

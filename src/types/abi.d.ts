@@ -49,6 +49,7 @@ type FieldTypes =
   | `ufixed`
   | `fixed${number}x${number}`
   | `ufixed${number}x${number}`
+  | `bytes`
   | `bytes${number}`
   | `function`
   | NumberField
