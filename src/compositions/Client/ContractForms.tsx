@@ -7,6 +7,7 @@ type ContractFormsProps = {
   abi: ABIModel
   active: boolean | undefined
   call: ((...args: any[]) => Promise<any>) | undefined
+  encodeToBytes: ((...args: any[]) => string) | undefined
 }
 export const ContractForms: VFC<ContractFormsProps> = memo(
   ({ abi, ...formProps }) => (
@@ -44,6 +45,7 @@ type ContractFormProps = {
   methods: Method[]
   active: boolean | undefined
   call: ((...args: any[]) => Promise<any>) | undefined
+  encodeToBytes: ((...args: any[]) => string) | undefined
   findDoc: (method: Method) => MethodDoc | undefined
 }
 const ContractForm: VFC<ContractFormProps> = ({

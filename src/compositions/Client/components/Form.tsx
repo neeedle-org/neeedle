@@ -9,28 +9,39 @@ import { convertOutput } from 'src/utils/converter'
 import styled from 'styled-components'
 import { ctaStyle, ErrorMessage, Output, Unit } from './styles'
 
-export const Form: VFC<{
+export type FormProps = {
   method: Method
   doc?: MethodDoc
   active?: boolean
   call?: (...args: any[]) => Promise<any>
-}> = ({ method, doc, active, call }) => {
+  encodeToBytes?: (...args: any[]) => string
+}
+
+export const Form: VFC<FormProps> = ({
+  method,
+  doc,
+  active,
+  call,
+  encodeToBytes,
+}) => {
   const { open } = useWalletModal()
   const { settings } = useSettingsStore()
   const methods = useForm()
   const {
     handleSubmit,
     register,
-    clearErrors,
+    getValues,
     formState: { errors, isSubmitSuccessful },
   } = methods
   const [output, setOutput] = useState<any>()
+  const [bytesEncoded, setBytesEncoded] = useState<string>()
   const [errorMessage, setErrorMessage] = useState('')
   return (
     <FormProvider key={method.name} {...methods}>
       <form
         onSubmit={handleSubmit((data) => {
           if (!call) return
+          setBytesEncoded(undefined)
           setOutput(undefined)
           setErrorMessage('')
           return call(method, data, settings.gasLimit, settings.unit)
@@ -77,14 +88,29 @@ export const Form: VFC<{
                   />
                 )
               })}
-              <button
-                type={active ? 'submit' : 'button'}
-                onClick={active ? undefined : open}
-              >
-                Call
-              </button>
+              <Buttons>
+                <button
+                  type="button"
+                  disabled={!encodeToBytes}
+                  onClick={() =>
+                    encodeToBytes &&
+                    setBytesEncoded(encodeToBytes(method, getValues()))
+                  }
+                >
+                  Encode
+                </button>
+                <button
+                  type={active ? 'submit' : 'button'}
+                  onClick={active ? undefined : open}
+                >
+                  Call
+                </button>
+              </Buttons>
             </Inputs>
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            {bytesEncoded && (
+              <Output>{`Bytes Encoded\n\n${bytesEncoded}`}</Output>
+            )}
             {output != null ? (
               <>
                 <Output>
@@ -145,7 +171,15 @@ const Type = styled.span`
   font-size: 18px;
   font-style: italic;
 `
-
+const Buttons = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  > button {
+    margin-left: 24px;
+    ${ctaStyle};
+  }
+`
 const Section = styled.details`
   margin-top: 20px;
   font-size: 24px;
@@ -227,11 +261,6 @@ const Inputs = styled.div`
   }
   ${Doc} {
     margin: 0 8px;
-  }
-  button {
-    margin-top: 20px;
-    margin-left: auto;
-    ${ctaStyle};
   }
 `
 

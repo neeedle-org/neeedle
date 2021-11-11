@@ -29,6 +29,7 @@ export const Client = () => {
               abi={abi}
               active={isCallable}
               call={contract?.call}
+              encodeToBytes={contract?.encodeToBytes}
             />
           ) : (
             <EmptyMessage>No ABI loaded.</EmptyMessage>
