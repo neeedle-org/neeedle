@@ -24,15 +24,14 @@ export const Client = () => {
         <main>
           <Settings />
           <h2>Functions</h2>
-          {abi ? (
+          {abi && contract ? (
             <ContractForms
               abi={abi}
-              active={isCallable}
-              call={contract?.call}
-              encodeToBytes={contract?.encodeToBytes}
+              contract={contract}
+              isCallable={isCallable}
             />
           ) : (
-            <EmptyMessage>No ABI loaded.</EmptyMessage>
+            <EmptyMessage>ABI not loaded.</EmptyMessage>
           )}
         </main>
         <footer>

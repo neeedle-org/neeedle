@@ -12,18 +12,11 @@ import { ctaStyle, ErrorMessage, Output, Unit } from './styles'
 export type FormProps = {
   method: Method
   doc?: MethodDoc
-  active?: boolean
   call?: (...args: any[]) => Promise<any>
-  encodeToBytes?: (...args: any[]) => string
+  encodeToBytes: (...args: any[]) => string
 }
 
-export const Form: VFC<FormProps> = ({
-  method,
-  doc,
-  active,
-  call,
-  encodeToBytes,
-}) => {
+export const Form: VFC<FormProps> = ({ method, doc, call, encodeToBytes }) => {
   const { open } = useWalletModal()
   const { settings } = useSettingsStore()
   const methods = useForm()
@@ -91,7 +84,6 @@ export const Form: VFC<FormProps> = ({
               <Buttons>
                 <button
                   type="button"
-                  disabled={!encodeToBytes}
                   onClick={() =>
                     encodeToBytes &&
                     setBytesEncoded(encodeToBytes(method, getValues()))
@@ -100,8 +92,8 @@ export const Form: VFC<FormProps> = ({
                   Encode
                 </button>
                 <button
-                  type={active ? 'submit' : 'button'}
-                  onClick={active ? undefined : open}
+                  type={call ? 'submit' : 'button'}
+                  onClick={call ? undefined : open}
                 >
                   Call
                 </button>
