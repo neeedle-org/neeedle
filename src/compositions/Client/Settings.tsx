@@ -2,9 +2,10 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import querystring from 'querystring'
 import { ReactNode, useEffect, useState, VFC } from 'react'
+import { getExplorer } from 'src/constants/chains'
 import { UNITS } from 'src/constants/misc'
 import { Link } from 'src/elements/Link'
-import { useContractStore } from 'src/stores'
+import { useContractStore, useWalletStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
 import { parseUrl } from 'src/utils/urlParser'
 import styled from 'styled-components'
@@ -174,6 +175,8 @@ const SettingsFormItem: VFC<SettingsFormItemProps> = ({
   children,
   className,
 }) => {
+  const { chainId } = useWalletStore()
+  const explorer = getExplorer(chainId)
   return (
     <div className={className}>
       <h3>{title}</h3>
@@ -181,6 +184,8 @@ const SettingsFormItem: VFC<SettingsFormItemProps> = ({
         <OutputMini>
           {output.startsWith('http') ? (
             <Link href={output}>{output}</Link>
+          ) : ethers.utils.isAddress(output) && explorer ? (
+            <Link href={explorer.address(output)}>{output}</Link>
           ) : (
             output
           )}
