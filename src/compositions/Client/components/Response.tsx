@@ -10,7 +10,7 @@ export type ResponseProps = {
 }
 
 export const Response: VFC<ResponseProps> = ({ method, response }) => {
-  if (!response)
+  if (response === undefined)
     return (
       <Output>
         {'Response Type:\n\n'}

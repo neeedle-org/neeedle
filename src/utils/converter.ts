@@ -14,8 +14,10 @@ const convertValue = (value: any) => {
   return value
 }
 
-export const convertOutput = (types: Field[], output: any[]) =>
-  types.map(({ name }) => name).filter(Boolean).length
+export const convertOutput = (types: Field[], output: any | any[]) =>
+  !Array.isArray(output)
+    ? output
+    : types.map(({ name }) => name).filter(Boolean).length
     ? types.reduce(
         (prev, { name, type }, idx) => ({
           ...prev,
