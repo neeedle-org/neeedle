@@ -7,12 +7,12 @@ import { UNITS } from 'src/constants/misc'
 import { Link } from 'src/elements/Link'
 import { useContractStore, useWalletStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
-import { parseUrl } from 'src/utils/urlParser'
+import { parseUrl, putQuery } from 'src/utils/urlParser'
 import styled from 'styled-components'
 import { ctaStyle, ErrorMessage, OutputMini, Unit } from './components'
 
 export const Settings: VFC = () => {
-  const { replace } = useRouter()
+  const { replace, asPath } = useRouter()
   const { contractAddress, setContractAddress, setAbi } = useContractStore()
   const [abiJsonLabel, setAbiJsonLabel] = useState('')
 
@@ -21,6 +21,14 @@ export const Settings: VFC = () => {
 
   const [editingAddress, setEditingAddress] = useState('')
   const [addressErrorMessage, setAddressErrorMessage] = useState('')
+
+  const replaceUrl = (
+    path: string,
+    key: 'abiUrl' | 'contractAddress ',
+    value: string,
+  ) => {
+    replace(putQuery(path, key, value), undefined, { shallow: true })
+  }
 
   const updateContractAddress = (address: string) => {
     setAddressErrorMessage('')
@@ -55,18 +63,19 @@ export const Settings: VFC = () => {
       (res) =>
         res.text().then((data) => {
           updateAbi(data, url)
-          replace(`?abiUrl=${encodeURI(url)}`, undefined, { shallow: true })
+          replaceUrl('', 'abiUrl', url)
         }),
       setAbiErrorMessage,
     )
 
   useEffect(() => {
-    const { abiUrl, address } = querystring.parse(
+    const { abiUrl, contractAddress } = querystring.parse(
       window.location.search.replace('?', ''),
     )
     const load = async () => {
       if (abiUrl && typeof abiUrl === 'string') await fetchAbi(abiUrl)
-      if (address && typeof address === 'string') updateContractAddress(address)
+      if (contractAddress && typeof contractAddress === 'string')
+        updateContractAddress(contractAddress)
     }
     load()
   }, [])
@@ -114,7 +123,10 @@ export const Settings: VFC = () => {
             onChange={({ target: { value } }) => setEditingAddress(value)}
           />
           <button
-            onClick={() => updateContractAddress(editingAddress)}
+            onClick={() => {
+              updateContractAddress(editingAddress)
+              replaceUrl(asPath, 'contractAddress', editingAddress)
+            }}
             disabled={!ethers.utils.isAddress(editingAddress)}
           >
             Set
