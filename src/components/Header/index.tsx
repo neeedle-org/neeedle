@@ -23,10 +23,11 @@ export const Header: VFC = () => {
     <HeaderLayout>
       <Logo />
       <Buttons>
-        {settings.chainId != null && chainId !== settings.chainId && (
+        {account && settings.chainId != null && chainId !== settings.chainId && (
           <AttentionButton
             label="Wrong Network"
             onClick={async () => {
+              if (settings.chainId == null) return
               const chainInfo = chains.find(
                 (each) => each.chainId === settings.chainId,
               )

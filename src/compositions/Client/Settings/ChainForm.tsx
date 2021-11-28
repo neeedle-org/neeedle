@@ -9,7 +9,7 @@ import { SettingsFormItem } from './SettingsForm'
 import { Control } from './styles'
 
 type ChainFormProps = {
-  replaceQueryParam: (key: QueryParamKey, value: string) => void
+  replaceQueryParam: (puts: { key: QueryParamKey; value: string }[]) => void
 }
 export const ChainForm: VFC<ChainFormProps> = ({ replaceQueryParam }) => {
   const [customChainId, setCustomChainId] = useState('')
@@ -20,9 +20,6 @@ export const ChainForm: VFC<ChainFormProps> = ({ replaceQueryParam }) => {
       res.json().then(setChains),
     )
   }, [])
-  useEffect(() => {
-    replaceQueryParam('chainId', settings.chainId ? `${settings.chainId}` : '')
-  }, [settings.chainId])
   return (
     <ChainFormItem title="Chain" output={''} errorMessage={''}>
       <ChainControl>
@@ -40,6 +37,7 @@ export const ChainForm: VFC<ChainFormProps> = ({ replaceQueryParam }) => {
           <select
             onChange={({ target: { value } }) => {
               setSettings({ chainId: +value })
+              replaceQueryParam([{ key: 'chainId', value }])
             }}
             value={settings.chainId}
           >
@@ -63,6 +61,7 @@ export const ChainForm: VFC<ChainFormProps> = ({ replaceQueryParam }) => {
         <button
           onClick={() => {
             setSettings({ chainId: +customChainId })
+            replaceQueryParam([{ key: 'chainId', value: customChainId }])
           }}
           disabled={!customChainId || !Number.isInteger(+customChainId)}
         >
