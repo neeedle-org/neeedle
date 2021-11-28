@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import querystring from 'querystring'
 import { useEffect, useState } from 'react'
 import { useContractStore } from 'src/stores'
-import { parseUrl, putQuery } from 'src/utils/urlParser'
+import { parseUrl, putQuery, QueryParamKey } from 'src/utils/urlParser'
 
 export const useSettings = () => {
   const { replace, asPath } = useRouter()
@@ -16,8 +16,8 @@ export const useSettings = () => {
   const [editingAddress, setEditingAddress] = useState('')
   const [addressErrorMessage, setAddressErrorMessage] = useState('')
 
-  const replaceUrl = (
-    key: 'abiUrl' | 'contractAddress',
+  const replaceQueryParam = (
+    key: QueryParamKey,
     value: string,
     path: string = asPath,
   ) => {
@@ -32,7 +32,7 @@ export const useSettings = () => {
       return
     }
     setContractAddress(address)
-    replaceUrl('contractAddress', address)
+    replaceQueryParam('contractAddress', address)
     setEditingAddress('')
   }
 
@@ -58,7 +58,7 @@ export const useSettings = () => {
       (res) =>
         res.text().then((data) => {
           updateAbi(data, url)
-          replaceUrl('abiUrl', url, '')
+          replaceQueryParam('abiUrl', url, '')
         }),
       setAbiErrorMessage,
     )
@@ -87,5 +87,6 @@ export const useSettings = () => {
     setEditingAddress,
     updateContractAddress,
     updateAbi,
+    replaceQueryParam,
   }
 }

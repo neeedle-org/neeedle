@@ -18,6 +18,7 @@ export const Settings: VFC = () => {
     setEditingAddress,
     updateContractAddress,
     updateAbi,
+    replaceQueryParam,
   } = useSettings()
   return (
     <Layout>
@@ -37,7 +38,7 @@ export const Settings: VFC = () => {
         setEditingAddress={setEditingAddress}
         updateContractAddress={updateContractAddress}
       />
-      <MiscForm />
+      <MiscForm replaceQueryParam={replaceQueryParam} />
     </Layout>
   )
 }
