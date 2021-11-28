@@ -3,11 +3,13 @@ import { useRouter } from 'next/router'
 import querystring from 'querystring'
 import { useEffect, useState } from 'react'
 import { useContractStore } from 'src/stores'
-import { parseUrl, putQuery } from 'src/utils/urlParser'
+import { useSettingsStore } from 'src/stores/settings'
+import { parseUrl, putQuery, QueryParamKey } from 'src/utils/urlParser'
 
 export const useSettings = () => {
   const { replace, asPath } = useRouter()
   const { contractAddress, setContractAddress, setAbi } = useContractStore()
+  const { setSettings } = useSettingsStore()
   const [abiJsonLabel, setAbiJsonLabel] = useState('')
 
   const [abiJsonUrl, setAbiJsonUrl] = useState('')
@@ -16,12 +18,11 @@ export const useSettings = () => {
   const [editingAddress, setEditingAddress] = useState('')
   const [addressErrorMessage, setAddressErrorMessage] = useState('')
 
-  const replaceUrl = (
-    key: 'abiUrl' | 'contractAddress',
-    value: string,
+  const replaceQueryParam = (
+    puts: { key: QueryParamKey; value: string }[],
     path: string = asPath,
   ) => {
-    replace(putQuery(path, key, value), undefined, { shallow: true })
+    replace(putQuery(path, puts), undefined, { shallow: true })
   }
 
   const updateContractAddress = (address: string) => {
@@ -32,7 +33,7 @@ export const useSettings = () => {
       return
     }
     setContractAddress(address)
-    replaceUrl('contractAddress', address)
+    replaceQueryParam([{ key: 'contractAddress', value: address }])
     setEditingAddress('')
   }
 
@@ -58,19 +59,24 @@ export const useSettings = () => {
       (res) =>
         res.text().then((data) => {
           updateAbi(data, url)
-          replaceUrl('abiUrl', url, '')
+          replaceQueryParam([
+            { key: 'abiUrl', value: url },
+            { key: 'contractAddress', value: '' },
+          ])
         }),
       setAbiErrorMessage,
     )
 
   useEffect(() => {
-    const { abiUrl, contractAddress } = querystring.parse(
+    const { abiUrl, contractAddress, chainId } = querystring.parse(
       window.location.search.replace('?', ''),
     )
     const load = async () => {
       if (abiUrl && typeof abiUrl === 'string') await fetchAbi(abiUrl)
       if (contractAddress && typeof contractAddress === 'string')
         updateContractAddress(contractAddress)
+      if (chainId && typeof chainId === 'string')
+        setSettings({ chainId: +chainId })
     }
     load()
   }, [])
@@ -87,5 +93,6 @@ export const useSettings = () => {
     setEditingAddress,
     updateContractAddress,
     updateAbi,
+    replaceQueryParam,
   }
 }

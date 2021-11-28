@@ -2,10 +2,13 @@ import Image from 'next/image'
 import { useMemo } from 'react'
 import { githubIconSrc } from 'src/assets/images'
 import { Header } from 'src/components/Header'
+import { useMessageModal } from 'src/components/MessageModal'
 import { SEO } from 'src/components/SEO'
 import { Link } from 'src/elements/Link'
 import { useWalletStore } from 'src/stores'
+import { useChainsStore } from 'src/stores/chains'
 import { useContractStore } from 'src/stores/contract'
+import { useSettingsStore } from 'src/stores/settings'
 import { fontWeightMedium, fontWeightSemiBold } from 'src/styles/font'
 import { REPOSITORY_URL } from 'src/utils/router'
 import styled from 'styled-components'
@@ -13,9 +16,17 @@ import { ContractForms } from './ContractForms'
 import { Settings } from './Settings'
 
 export const Client = () => {
-  const { active } = useWalletStore()
+  const { active, chainId } = useWalletStore()
   const { abi, contract } = useContractStore()
+  const { settings } = useSettingsStore()
+  const { changeChain } = useChainsStore()
+  const { open: openMessageModal } = useMessageModal()
+
   const isCallable = useMemo(() => !!(active && contract), [contract, active])
+  const isNetworkWrong = useMemo(
+    () => settings.chainId != null && settings.chainId !== chainId,
+    [chainId, settings],
+  )
   return (
     <>
       <SEO />
@@ -29,6 +40,14 @@ export const Client = () => {
               abi={abi}
               contract={contract}
               isCallable={isCallable}
+              changeChain={
+                isNetworkWrong
+                  ? () =>
+                      changeChain(settings.chainId).catch((err) =>
+                        openMessageModal({ message: err }),
+                      )
+                  : undefined
+              }
             />
           ) : (
             <EmptyMessage>ABI not loaded.</EmptyMessage>

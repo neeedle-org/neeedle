@@ -13,10 +13,12 @@ type ContractFormsProps = {
   abi: ABIModel
   contract: ContractModel
   isCallable: boolean | undefined
+  changeChain?: VoidFunction
 }
 export const ContractForms: VFC<ContractFormsProps> = ({
   abi,
   isCallable,
+  changeChain,
   contract,
 }) => (
   <>
@@ -33,6 +35,7 @@ export const ContractForms: VFC<ContractFormsProps> = ({
               doc={abi.findDoc(method)}
               encodeToBytes={contract.encodeToBytes}
               call={isCallable ? contract.call : undefined}
+              changeChain={changeChain}
             />
           ))}
         </>

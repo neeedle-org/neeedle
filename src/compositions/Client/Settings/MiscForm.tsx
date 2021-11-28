@@ -50,4 +50,11 @@ const MiscDiv = styled.div`
     font-size: 18px;
     margin-bottom: 4px;
   }
+  span {
+    margin-left: 8px;
+    font-size: 14px;
+    a {
+      text-decoration: underline;
+    }
+  }
 `
