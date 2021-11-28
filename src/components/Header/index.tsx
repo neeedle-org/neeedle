@@ -1,12 +1,10 @@
 import React, { VFC } from 'react'
 import { HeaderButton } from 'src/components/Header/HeaderButton'
 import { Logo } from 'src/components/Logo'
-import { requestChangeChain } from 'src/external/wallet/metamask'
 import { useWalletStore } from 'src/stores'
 import { useChainsStore } from 'src/stores/chains'
 import { useSettingsStore } from 'src/stores/settings'
 import { shortenAddress } from 'src/utils/address'
-import { toAddChainParam, toChainIdHex } from 'src/utils/chain'
 import styled from 'styled-components'
 import { useMessageModal } from '../MessageModal'
 import { useWalletModal } from '../WalletModal'
@@ -17,27 +15,24 @@ export const Header: VFC = () => {
   const { settings } = useSettingsStore()
   const { open } = useWalletModal()
   const { open: openMessageModal } = useMessageModal()
-  const { chains } = useChainsStore()
+  const { changeChain } = useChainsStore()
   const { chainId } = useWalletStore()
   return (
     <HeaderLayout>
       <Logo />
       <Buttons>
-        {account && settings.chainId != null && chainId !== settings.chainId && (
-          <AttentionButton
-            label="Wrong Network"
-            onClick={async () => {
-              if (settings.chainId == null) return
-              const chainInfo = chains.find(
-                (each) => each.chainId === settings.chainId,
-              )
-              requestChangeChain(
-                toChainIdHex(settings.chainId),
-                chainInfo ? toAddChainParam(chainInfo) : undefined,
-              ).catch((err) => openMessageModal({ message: err }))
-            }}
-          />
-        )}
+        {account &&
+          settings.chainId != null &&
+          chainId !== settings.chainId && (
+            <AttentionButton
+              label="Wrong Network"
+              onClick={() =>
+                changeChain(settings.chainId).catch((err) =>
+                  openMessageModal({ message: err }),
+                )
+              }
+            />
+          )}
         {account ? (
           <HeaderButton
             hasAccount

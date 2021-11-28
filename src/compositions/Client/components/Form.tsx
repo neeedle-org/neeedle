@@ -1,6 +1,7 @@
 import { useState, VFC } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useWalletModal } from 'src/components/WalletModal'
+import { errorColor } from 'src/components/WalletModal/colors'
 import { useSettingsStore } from 'src/stores/settings'
 import { fontWeightSemiBold } from 'src/styles/font'
 import { Method, MethodDoc } from 'src/types/abi'
@@ -14,9 +15,16 @@ export type FormProps = {
   doc?: MethodDoc
   call?: (...args: any[]) => Promise<any>
   encodeToBytes: (...args: any[]) => string
+  changeChain?: VoidFunction
 }
 
-export const Form: VFC<FormProps> = ({ method, doc, call, encodeToBytes }) => {
+export const Form: VFC<FormProps> = ({
+  method,
+  doc,
+  call,
+  encodeToBytes,
+  changeChain,
+}) => {
   const { open } = useWalletModal()
   const { settings } = useSettingsStore()
   const methods = useForm()
@@ -55,12 +63,18 @@ export const Form: VFC<FormProps> = ({ method, doc, call, encodeToBytes }) => {
               <button type="button" onClick={encode}>
                 Encode
               </button>
-              <button
-                type={call ? 'submit' : 'button'}
-                onClick={call ? undefined : open}
-              >
-                Call
-              </button>
+              {changeChain ? (
+                <AttentionButton type={'button'} onClick={changeChain}>
+                  Wrong Network
+                </AttentionButton>
+              ) : (
+                <button
+                  type={call ? 'submit' : 'button'}
+                  onClick={call ? undefined : open}
+                >
+                  Call
+                </button>
+              )}
             </ButtonsDiv>
             {bytesEncoded && (
               <Output>{`Bytes Encoded:\n\n${bytesEncoded}`}</Output>
@@ -90,6 +104,11 @@ const ButtonsDiv = styled.div`
   > button {
     margin-left: 24px;
     ${ctaStyle};
+  }
+`
+const AttentionButton = styled.button`
+  && {
+    background: ${errorColor};
   }
 `
 
