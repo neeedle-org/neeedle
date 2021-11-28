@@ -1,49 +1,12 @@
-import { useEffect, useState, VFC } from 'react'
 import { UNITS } from 'src/constants/misc'
-import { Link } from 'src/elements/Link'
 import { useSettingsStore } from 'src/stores/settings'
-import { QueryParamKey } from 'src/utils/urlParser'
 import styled from 'styled-components'
 import { Unit } from '../components'
 
-export const MiscForm: VFC<{
-  replaceQueryParam: (key: QueryParamKey, value: string) => void
-}> = ({ replaceQueryParam }) => {
+export const MiscForm = () => {
   const { settings, setSettings } = useSettingsStore()
-  const [chains, setChains] = useState<{ name: string; chainId: number }[]>([])
-  useEffect(() => {
-    fetch('https://chainid.network/chains_mini.json').then((res) =>
-      res.json().then(setChains),
-    )
-  }, [])
   return (
     <MiscDiv>
-      <div>
-        <h4>
-          Chain
-          <span>
-            (Thanks to:{' '}
-            <Link href={'https://chainid.network'}>
-              https://chainid.network
-            </Link>
-            )
-          </span>
-        </h4>
-        <select
-          onChange={({ target: { value } }) => {
-            setSettings({ chainId: +value })
-            replaceQueryParam('chainId', value)
-          }}
-          value={settings.chainId}
-        >
-          <option />
-          {chains.map(({ name, chainId }) => (
-            <option key={chainId} value={chainId} label={name}>
-              {name}
-            </option>
-          ))}
-        </select>
-      </div>
       <div>
         <h4>Input Unit</h4>
         <select

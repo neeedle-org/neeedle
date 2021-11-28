@@ -2,6 +2,7 @@ import { VFC } from 'react'
 import styled from 'styled-components'
 import { ABIForm } from './ABIForm'
 import { AddressForm } from './AddressForm'
+import { ChainForm } from './ChainForm'
 import { MiscForm } from './MiscForm'
 import { useSettings } from './useSettings'
 
@@ -38,7 +39,8 @@ export const Settings: VFC = () => {
         setEditingAddress={setEditingAddress}
         updateContractAddress={updateContractAddress}
       />
-      <MiscForm replaceQueryParam={replaceQueryParam} />
+      <ChainForm replaceQueryParam={replaceQueryParam} />
+      <MiscForm />
     </Layout>
   )
 }
