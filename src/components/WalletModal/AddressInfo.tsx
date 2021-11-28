@@ -5,12 +5,12 @@ import {
   IconCopy,
   IconExternalLink,
 } from 'src/assets/svgs'
-import { Heading, SubHeading } from 'src/components/Modal/styles'
+import { CtaButton, Heading, SubHeading } from 'src/components/Modal/styles'
 import { getExplorer } from 'src/constants/chains'
 import { useWalletConnect } from 'src/external'
 import { useWalletStore } from 'src/stores'
 import { fontWeightMedium } from 'src/styles/font'
-import { defaultShadow, flexCenter } from 'src/styles/mixins'
+import { flexCenter } from 'src/styles/mixins'
 import { shortenAddress } from 'src/utils/address'
 import styled from 'styled-components'
 import { SelectWallet } from './SelectWallet'
@@ -66,18 +66,18 @@ export const AddressInfo: VFC<{
             </ActionAreaDiv>
             <ButtonAreaDiv>
               {activeWalletType == 'WalletConnect' && (
-                <StyledCtaButton
+                <CtaButton
                   onClick={async () => {
                     await disconnect()
                     closeModal()
                   }}
                 >
                   Disconnect
-                </StyledCtaButton>
+                </CtaButton>
               )}
-              <StyledCtaButton onClick={() => setChangingWallet(true)}>
+              <CtaButton onClick={() => setChangingWallet(true)}>
                 Change
-              </StyledCtaButton>
+              </CtaButton>
             </ButtonAreaDiv>
           </Layout>
         </>
@@ -85,26 +85,6 @@ export const AddressInfo: VFC<{
     </>
   )
 }
-
-const StyledCtaButton = styled.button`
-  ${flexCenter};
-  padding: 0 24px;
-  max-width: 96px;
-  height: 32px;
-  font-size: 12px;
-  letter-spacing: 0.016em;
-  font-weight: ${fontWeightMedium};
-  text-align: center;
-  background: ${({ theme: { bgPrimary } }) => bgPrimary};
-  border-radius: 16px;
-  border: 1px solid ${({ theme: { primary } }) => primary};
-  box-shadow: ${defaultShadow};
-  :hover,
-  :focus {
-    background: ${({ theme: { primary } }) => primary};
-    color: ${({ theme: { bgPrimary } }) => bgPrimary};
-  }
-`
 
 const ButtonAreaDiv = styled.div`
   ${flexCenter};
