@@ -2,12 +2,6 @@ import { useCallback } from 'react'
 import { useWalletStore } from 'src/stores'
 import { injected } from './utils'
 
-declare global {
-  interface Window {
-    ethereum: any
-  }
-}
-
 const WALLET_TYPE_METAMASK = 'Metamask'
 
 export const isMetaMaskInstalled = (): boolean => {
