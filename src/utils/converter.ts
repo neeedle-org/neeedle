@@ -28,7 +28,7 @@ const convertValue = (value: any) => {
 
 export const convertOutput = (types: Field[], output: any | any[]) =>
   !Array.isArray(output)
-    ? output
+    ? convertValue(output)
     : types.map(({ name }) => name).filter(Boolean).length
     ? types.reduce(
         (prev, { name, type }, idx) => ({
@@ -37,7 +37,7 @@ export const convertOutput = (types: Field[], output: any | any[]) =>
         }),
         {},
       )
-    : output
+    : output.map(convertValue)
 
 export const toOption = (
   stateMutability: Method['stateMutability'],
