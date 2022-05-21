@@ -67,7 +67,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, fieldType, doc, unit, hasError, ...props }, ref) => (
     <InputLabel hasError={hasError}>
       <div>
-        {label}: <Type>{fieldType}</Type>
+        {label}:{' '}
+        <Type>
+          {fieldType}
+          {fieldType.endsWith('[]') && ' *comma-separated'}
+        </Type>
         <Doc>{doc}</Doc>
       </div>
       <div>
