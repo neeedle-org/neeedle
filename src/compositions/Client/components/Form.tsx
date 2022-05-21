@@ -1,3 +1,4 @@
+import { ContractTransaction } from 'ethers'
 import { useState, VFC } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useWalletModal } from 'src/components/WalletModal'
@@ -13,7 +14,7 @@ import { ctaStyle, Doc, ErrorMessage, Output } from './styles'
 export type FormProps = {
   method: Method
   doc?: MethodDoc
-  call?: (...args: any[]) => Promise<any>
+  call?: (...args: any[]) => Promise<ContractTransaction | any>
   encodeToBytes: (...args: any[]) => string
   changeChain?: VoidFunction
 }
@@ -30,6 +31,7 @@ export const Form: VFC<FormProps> = ({
   const methods = useForm()
   const { handleSubmit, getValues } = methods
   const [response, setResponse] = useState<any>()
+  const [receipt, setReceipt] = useState<any>(null)
   const [bytesEncoded, setBytesEncoded] = useState<string>()
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -37,9 +39,14 @@ export const Form: VFC<FormProps> = ({
     if (!call) return
     setBytesEncoded(undefined)
     setResponse(undefined)
+    setReceipt(undefined)
     setErrorMessage('')
     return call(method, data, settings.gasLimit, settings.unit)
-      .then(setResponse)
+      .then((tx) => {
+        setResponse(tx)
+        if (typeof tx.wait !== 'function') return setReceipt(null)
+        return (tx as ContractTransaction).wait(1).then(setReceipt)
+      })
       .catch((e) => setErrorMessage(JSON.stringify(e, null, 4)))
   }
   const encode = () => {
@@ -80,6 +87,12 @@ export const Form: VFC<FormProps> = ({
               <Output>{`Bytes Encoded:\n\n${bytesEncoded}`}</Output>
             )}
             {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+            {receipt !== null && (
+              <Response
+                method={method}
+                response={receipt || 'Waiting for the receipt...'}
+              />
+            )}
             {!bytesEncoded && <Response method={method} response={response} />}
           </CollapsableDiv>
         </Section>

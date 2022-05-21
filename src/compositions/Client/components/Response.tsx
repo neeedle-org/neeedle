@@ -23,7 +23,7 @@ export const Response: VFC<ResponseProps> = ({ method, response }) => {
         {JSON.stringify(convertOutput(method.outputs, response), null, 4)}
       </Output>
       <RawResponse>
-        <summary>Raw response</summary>
+        <summary>Raw</summary>
         <Output>{JSON.stringify(response, null, 4)}</Output>
       </RawResponse>
     </>

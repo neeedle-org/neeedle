@@ -1,5 +1,5 @@
 import { Provider } from '@ethersproject/providers'
-import { Contract, Signer } from 'ethers'
+import { Contract, ContractTransaction, Signer } from 'ethers'
 import { DEFAULT_GAS_LIMIT } from 'src/constants/misc'
 import { ABI, Method } from 'src/types/abi'
 import { convert, toOption } from 'src/utils/converter'
@@ -32,7 +32,7 @@ export class ContractModel {
     data: { [x: string]: string },
     gasLimit?: string,
     unit?: string,
-  ) => {
+  ): Promise<ContractTransaction | any> => {
     const func = this.contract[method.name]
     if (!func) throw new Error(`Function not found: ${method.name}`)
     const args = method.inputs.map(({ type }, idx) => {
