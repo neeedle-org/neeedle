@@ -2,7 +2,7 @@ import { BigNumber, utils } from 'ethers'
 import { Field, FieldType, Method } from 'src/types/abi'
 
 const IS_NUMBER = /^u?int/
-const IS_ARRAY = /\[\]$/
+const IS_ARRAY = /\]$/
 const DELIMITER = ','
 export const convert = (
   type: FieldType,
@@ -15,7 +15,7 @@ export const convert = (
     ) as string[] | BigNumber[] | boolean[]
   }
   if (IS_NUMBER.test(type)) return BigNumber.from(input)
-  if (type === 'bool') return input === 'true'
+  if (type === 'bool') return input.toLowerCase() === 'true'
   return input
 }
 
