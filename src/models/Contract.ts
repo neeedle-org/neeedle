@@ -33,7 +33,10 @@ export class ContractModel {
     gasLimit?: string,
     unit?: string,
   ): Promise<ContractTransaction | any> => {
-    const func = this.contract[method.name]
+    const func =
+      this.contract[
+        `${method.name}(${method.inputs.map(({ type }) => type).join(',')})`
+      ]
     if (!func) throw new Error(`Function not found: ${method.name}`)
     const args = method.inputs.map(({ type }, idx) => {
       const input = data.args[idx]
