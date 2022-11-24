@@ -4,7 +4,13 @@ import querystring from 'querystring'
 import { useEffect, useState } from 'react'
 import { useContractStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
-import { parseUrl, putQuery, QueryParamKey } from 'src/utils/urlParser'
+import {
+  numberOr,
+  parseUrl,
+  putQuery,
+  QueryParamKey,
+  stringOr,
+} from 'src/utils/urlParser'
 
 export const useSettings = () => {
   const { replace, asPath } = useRouter()
@@ -19,7 +25,7 @@ export const useSettings = () => {
   const [addressErrorMessage, setAddressErrorMessage] = useState('')
 
   const replaceQueryParam = (
-    puts: { key: QueryParamKey; value: string }[],
+    puts: { key: QueryParamKey; value: string | undefined }[],
     path: string = asPath,
   ) => {
     replace(putQuery(path, puts), undefined, { shallow: true })
@@ -68,15 +74,30 @@ export const useSettings = () => {
     )
 
   useEffect(() => {
-    const { abiUrl, contractAddress, chainId } = querystring.parse(
+    const {
+      abiUrl,
+      contractAddress,
+      chainId,
+      payables,
+      nonpayables,
+      views,
+      purefunctions,
+    }: Partial<Record<QueryParamKey, string | string[]>> = querystring.parse(
       window.location.search.replace('?', ''),
     )
     const load = async () => {
       if (abiUrl && typeof abiUrl === 'string') await fetchAbi(abiUrl)
       if (contractAddress && typeof contractAddress === 'string')
         updateContractAddress(contractAddress)
-      if (chainId && typeof chainId === 'string')
-        setSettings({ chainId: +chainId })
+      setSettings({
+        chainId: numberOr(chainId),
+        filter: {
+          payables: stringOr(payables),
+          nonpayables: stringOr(nonpayables),
+          views: stringOr(views),
+          purefunctions: stringOr(purefunctions),
+        },
+      })
     }
     load()
   }, [])

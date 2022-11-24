@@ -50,7 +50,7 @@ export const Client = () => {
               }
             />
           ) : (
-            <EmptyMessage>ABI not loaded.</EmptyMessage>
+            <EmptyMessage>ABI or Contract not loaded.</EmptyMessage>
           )}
         </main>
         <footer>

@@ -11,7 +11,7 @@ const githubUrlToContent = (url: string) =>
 
 export const putQuery = (
   path: string,
-  puts: { key: QueryParamKey; value: string }[],
+  puts: { key: QueryParamKey; value: string | undefined }[],
 ) => {
   const params = new URLSearchParams(path.split('?')[1])
   puts.forEach(({ key, value }) =>
@@ -24,5 +24,25 @@ export type QueryParams = {
   abiUrl: string
   contractAddress: string
   chainId: number
+  payables: string
+  nonpayables: string
+  views: string
+  purefunctions: string
 }
 export type QueryParamKey = keyof QueryParams
+
+export const stringOr = (
+  arg: any,
+  defaultValue?: string,
+): string | undefined => {
+  if (typeof arg === 'string') return arg
+  return defaultValue
+}
+
+export const numberOr = (
+  arg: any,
+  defaultValue?: number,
+): number | undefined => {
+  if (!Number.isNaN(+arg)) return +arg
+  return defaultValue
+}
