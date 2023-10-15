@@ -1,4 +1,4 @@
-import React, { VFC } from 'react'
+import { FC } from 'react'
 import { HeaderButton } from 'src/components/Header/HeaderButton'
 import { Logo } from 'src/components/Logo'
 import { useWalletStore } from 'src/stores'
@@ -10,7 +10,7 @@ import { useMessageModal } from '../MessageModal'
 import { useWalletModal } from '../WalletModal'
 import { errorColor, white } from '../WalletModal/colors'
 
-export const Header: VFC = () => {
+export const Header: FC = () => {
   const { account } = useWalletStore()
   const { settings } = useSettingsStore()
   const { open } = useWalletModal()

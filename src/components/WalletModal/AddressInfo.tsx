@@ -1,4 +1,4 @@
-import React, { useState, VFC } from 'react'
+import { FC, useState } from 'react'
 import {
   IconCheck,
   IconColorfulCircle,
@@ -15,7 +15,7 @@ import { shortenAddress } from 'src/utils/address'
 import styled from 'styled-components'
 import { SelectWallet } from './SelectWallet'
 
-export const AddressInfo: VFC<{
+export const AddressInfo: FC<{
   address: string
   closeModal: VoidFunction
 }> = ({ address, closeModal }) => {

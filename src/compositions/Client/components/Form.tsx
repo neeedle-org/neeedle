@@ -1,5 +1,5 @@
 import { ContractTransaction } from 'ethers'
-import { useState, VFC } from 'react'
+import { FC, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useWalletModal } from 'src/components/WalletModal'
 import { errorColor } from 'src/components/WalletModal/colors'
@@ -9,7 +9,7 @@ import { Method, MethodDoc } from 'src/types/abi'
 import styled from 'styled-components'
 import { Inputs } from './Inputs'
 import { Response } from './Response'
-import { ctaStyle, Doc, ErrorMessage, Output } from './styles'
+import { Doc, ErrorMessage, Output, ctaStyle } from './styles'
 
 export type FormProps = {
   method: Method
@@ -19,7 +19,7 @@ export type FormProps = {
   changeChain?: VoidFunction
 }
 
-export const Form: VFC<FormProps> = ({
+export const Form: FC<FormProps> = ({
   method,
   doc,
   call,

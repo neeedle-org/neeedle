@@ -1,4 +1,4 @@
-import React, { ReactNode, VFC } from 'react'
+import { FC, ReactNode } from 'react'
 import { breakpoint, flexCenter } from 'src/styles/mixins'
 import styled from 'styled-components'
 
@@ -7,7 +7,7 @@ export type ModalProps = {
   closeModal?: () => void
 }
 
-export const Modal: VFC<ModalProps & { children: ReactNode }> = ({
+export const Modal: FC<ModalProps & { children: ReactNode }> = ({
   isOpen,
   closeModal,
   children,

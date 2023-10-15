@@ -1,4 +1,4 @@
-import React, { ReactNode, VFC } from 'react'
+import { FC, ReactNode } from 'react'
 import { IconLoading, IconMetamask } from 'src/assets/svgs'
 import { Heading, StyledIconBack } from 'src/components/Modal/styles'
 import {
@@ -13,7 +13,7 @@ import { breakpoint } from 'src/styles/mixins'
 import styled, { css } from 'styled-components'
 import { errorColor, gray, primaryColor, purple, white } from './colors'
 
-export const ConnectingWallet: VFC<{
+export const ConnectingWallet: FC<{
   onBack: () => void
   errors: any
   setErrors: (err: any) => void

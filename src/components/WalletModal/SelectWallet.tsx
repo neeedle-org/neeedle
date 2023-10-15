@@ -1,4 +1,4 @@
-import React, { useState, VFC } from 'react'
+import { FC, useState } from 'react'
 import { isMobile } from 'react-device-detect'
 import { IconMetamask, IconWalletConnect } from 'src/assets/svgs'
 import {
@@ -9,13 +9,13 @@ import {
 import { SERVICE_NAME } from 'src/constants/misc'
 import { useMetamask, useWalletConnect } from 'src/external'
 import { isMetaMaskInstalled } from 'src/external/wallet/metamask'
-import { useWalletStore, WalletType } from 'src/stores'
+import { WalletType, useWalletStore } from 'src/stores'
 import { METAMASK_URL } from 'src/utils/router'
 import styled from 'styled-components'
 import { ConnectingWallet } from './ConnectingWallet'
 import { WalletOption } from './WalletOption'
 
-export const SelectWallet: VFC<{
+export const SelectWallet: FC<{
   onBack?: () => void
   closeModal: VoidFunction
 }> = ({ onBack, closeModal }) => {

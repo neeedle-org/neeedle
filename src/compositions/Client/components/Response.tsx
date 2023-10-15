@@ -1,4 +1,4 @@
-import { VFC } from 'react'
+import { FC } from 'react'
 import { Method } from 'src/types/abi'
 import { convertOutput } from 'src/utils/converter'
 import styled from 'styled-components'
@@ -9,7 +9,7 @@ export type ResponseProps = {
   response?: any
 }
 
-export const Response: VFC<ResponseProps> = ({ method, response }) => {
+export const Response: FC<ResponseProps> = ({ method, response }) => {
   if (response === undefined)
     return (
       <Output>

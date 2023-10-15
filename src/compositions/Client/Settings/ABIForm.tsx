@@ -1,4 +1,4 @@
-import { VFC } from 'react'
+import { FC } from 'react'
 import { SettingsFormItem } from './SettingsForm'
 import { Control } from './styles'
 
@@ -10,7 +10,7 @@ type ABIForm = {
   setAbiJsonUrl: (abiJsonUrl: string) => void
   updateAbi: (data: any, label: string) => void
 }
-export const ABIForm: VFC<ABIForm> = ({
+export const ABIForm: FC<ABIForm> = ({
   abiJsonLabel,
   abiJsonUrl,
   abiErrorMessage,

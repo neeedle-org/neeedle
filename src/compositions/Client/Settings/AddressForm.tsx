@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { VFC } from 'react'
+import { FC } from 'react'
 import styled from 'styled-components'
 import { ctaStyle } from '../components'
 import { SettingsFormItem } from './SettingsForm'
@@ -12,7 +12,7 @@ type AddressForm = {
   setEditingAddress: (address: string) => void
   updateContractAddress: (address: string) => void
 }
-export const AddressForm: VFC<AddressForm> = ({
+export const AddressForm: FC<AddressForm> = ({
   contractAddress,
   editingAddress,
   addressErrorMessage,

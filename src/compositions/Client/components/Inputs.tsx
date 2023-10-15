@@ -1,6 +1,6 @@
-import { forwardRef, InputHTMLAttributes, VFC } from 'react'
+import { FC, InputHTMLAttributes, forwardRef } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { unitLabel, UNITS } from 'src/constants/misc'
+import { UNITS, unitLabel } from 'src/constants/misc'
 import { useSettingsStore } from 'src/stores/settings'
 import { FieldType, Method, MethodDoc } from 'src/types/abi'
 import styled from 'styled-components'
@@ -11,7 +11,7 @@ type InputsProps = {
   doc?: MethodDoc
 }
 
-export const Inputs: VFC<InputsProps & { className?: string }> = ({
+export const Inputs: FC<InputsProps & { className?: string }> = ({
   method,
   doc,
 }) => {

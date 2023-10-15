@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, VFC } from 'react'
+import { ButtonHTMLAttributes, FC } from 'react'
 import { fontWeightMedium } from 'src/styles/font'
 import styled, { css } from 'styled-components'
 
@@ -7,7 +7,7 @@ type HeaderButtonProps = {
 } & ButtonStyleProps &
   ButtonHTMLAttributes<HTMLButtonElement>
 
-export const HeaderButton: VFC<HeaderButtonProps> = ({
+export const HeaderButton: FC<HeaderButtonProps> = ({
   label,
   hasAccount,
   ...props

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { ReactNode, VFC } from 'react'
+import { FC, ReactNode } from 'react'
 import { getExplorer } from 'src/constants/chains'
 import { Link } from 'src/elements/Link'
 import { useWalletStore } from 'src/stores'
@@ -12,7 +12,7 @@ type SettingsFormItemProps = {
   children: ReactNode
   className?: string
 }
-export const SettingsFormItem: VFC<SettingsFormItemProps> = ({
+export const SettingsFormItem: FC<SettingsFormItemProps> = ({
   title,
   output,
   errorMessage,

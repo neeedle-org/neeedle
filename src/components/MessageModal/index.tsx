@@ -1,9 +1,9 @@
-import { VFC } from 'react'
+import { FC } from 'react'
 import { ModalContentProps, useGlobalModal } from 'src/hooks/useModal'
 import styled from 'styled-components'
 import { CtaButton } from '../Modal/styles'
 
-const MessageModal: VFC<ModalContentProps<{ message: string }>> = ({
+const MessageModal: FC<ModalContentProps<{ message: string }>> = ({
   message,
   closeModal,
 }) => {

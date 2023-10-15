@@ -1,4 +1,4 @@
-import { useEffect, useState, VFC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Link } from 'src/elements/Link'
 import { useChainsStore } from 'src/stores/chains'
 import { useSettingsStore } from 'src/stores/settings'
@@ -11,7 +11,7 @@ import { Control } from './styles'
 type ChainFormProps = {
   replaceQueryParam: (puts: { key: QueryParamKey; value: string }[]) => void
 }
-export const ChainForm: VFC<ChainFormProps> = ({ replaceQueryParam }) => {
+export const ChainForm: FC<ChainFormProps> = ({ replaceQueryParam }) => {
   const { settings, setSettings } = useSettingsStore()
   const { chains, setChains } = useChainsStore()
   useEffect(() => {
@@ -41,7 +41,7 @@ export const ChainForm: VFC<ChainFormProps> = ({ replaceQueryParam }) => {
     </ChainFormItem>
   )
 }
-const ChainControlForm: VFC<{
+const ChainControlForm: FC<{
   chains: Chain[]
   onChange: (chainId: number | undefined) => void
 }> = ({ chains, onChange }) => {

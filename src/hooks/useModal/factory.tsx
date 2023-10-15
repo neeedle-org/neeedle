@@ -1,4 +1,4 @@
-import { VFC } from 'react'
+import { FC } from 'react'
 import {
   atom,
   useRecoilCallback,
@@ -13,7 +13,7 @@ type GlobalModalComponentType<T> = {
 }
 type AnyComponentType = GlobalModalComponentType<any>
 
-type UseModalInterface = <T>(Component: VFC<ModalContentProps<T>>) => {
+type UseModalInterface = <T>(Component: FC<ModalContentProps<T>>) => {
   open: T extends void ? (props?: {}) => void : (props: T) => void
   close: VoidFunction
 }

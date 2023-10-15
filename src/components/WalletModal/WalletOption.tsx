@@ -1,4 +1,4 @@
-import React, { VFC } from 'react'
+import { FC } from 'react'
 import { WalletType } from 'src/stores'
 import { fontWeightMedium } from 'src/styles/font'
 import { flexCenter } from 'src/styles/mixins'
@@ -15,7 +15,7 @@ type Props = {
   onClick: () => Promise<void>
 }
 
-export const WalletOption: VFC<Props> = ({
+export const WalletOption: FC<Props> = ({
   type,
   Icon,
   notInstalled,

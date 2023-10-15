@@ -1,9 +1,9 @@
-import { useEffect, useState, VFC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { ABIModel, ContractModel } from 'src/models'
 import { useSettingsStore } from 'src/stores/settings'
 import styled from 'styled-components'
-import { Form } from './components'
 import { useSettings } from './Settings/useSettings'
+import { Form } from './components'
 
 const FORMS = [
   { key: 'payables', label: 'PAYABLE' },
@@ -18,7 +18,7 @@ type ContractFormsProps = {
   isCallable: boolean | undefined
   changeChain?: VoidFunction
 }
-export const ContractForms: VFC<ContractFormsProps> = (props) => (
+export const ContractForms: FC<ContractFormsProps> = (props) => (
   <>
     {FORMS.map((form) => (
       <FormItem key={form.key} form={form} {...props} />
@@ -26,7 +26,7 @@ export const ContractForms: VFC<ContractFormsProps> = (props) => (
   </>
 )
 
-const FormItem: VFC<{ form: typeof FORMS[number] } & ContractFormsProps> = ({
+const FormItem: FC<{ form: typeof FORMS[number] } & ContractFormsProps> = ({
   abi,
   form,
   contract,
