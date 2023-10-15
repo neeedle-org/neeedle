@@ -36,7 +36,7 @@ export const Link: LinkFC = ({
 }) => {
   if (href && (href.startsWith('/') || newTab))
     return (
-      <NextLink href={href} {...props} passHref>
+      <NextLink href={href} {...props} passHref legacyBehavior>
         <StyledAnchorLink className={className} disabled={!href}>
           {children}
         </StyledAnchorLink>

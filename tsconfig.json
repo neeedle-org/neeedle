@@ -1,6 +1,13 @@
 {
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.json"],
-  "exclude": ["node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
     "target": "es5",
     "allowJs": true,
@@ -16,8 +23,15 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "src": ["src"]
+      "src": [
+        "src"
+      ]
     },
-    "lib": ["dom", "dom.iterable", "esnext"]
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "incremental": true
   }
 }

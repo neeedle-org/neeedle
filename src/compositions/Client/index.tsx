@@ -56,7 +56,7 @@ export const Client = () => {
         <footer>
           <ImageDiv>
             <Link href={REPOSITORY_URL}>
-              <Image src={githubIconSrc} layout="fill" alt="github" />
+              <Image src={githubIconSrc} alt="github" fill />
             </Link>
           </ImageDiv>
         </footer>
