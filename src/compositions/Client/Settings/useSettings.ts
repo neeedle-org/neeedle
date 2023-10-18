@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react'
 import { useContractStore } from 'src/stores'
 import { useSettingsStore } from 'src/stores/settings'
 import {
+  QueryParamKey,
   numberOr,
   parseUrl,
   putQuery,
-  QueryParamKey,
   stringOr,
+  stringsOr,
 } from 'src/utils/urlParser'
 
 export const useSettings = () => {
@@ -65,10 +66,7 @@ export const useSettings = () => {
       (res) =>
         res.text().then((data) => {
           updateAbi(data, url)
-          replaceQueryParam([
-            { key: 'abiUrl', value: url },
-            { key: 'contractAddress', value: '' },
-          ])
+          replaceQueryParam([{ key: 'abiUrl', value: url }])
         }),
       setAbiErrorMessage,
     )
@@ -78,10 +76,13 @@ export const useSettings = () => {
       abiUrl,
       contractAddress,
       chainId,
+      rpcUrl,
       payables,
       nonpayables,
       views,
       purefunctions,
+      fn,
+      args,
     }: Partial<Record<QueryParamKey, string | string[]>> = querystring.parse(
       window.location.search.replace('?', ''),
     )
@@ -91,12 +92,15 @@ export const useSettings = () => {
         updateContractAddress(contractAddress)
       setSettings({
         chainId: numberOr(chainId),
+        rpcUrl: stringOr(rpcUrl),
         filter: {
           payables: stringOr(payables),
           nonpayables: stringOr(nonpayables),
           views: stringOr(views),
           purefunctions: stringOr(purefunctions),
         },
+        fn: stringOr(fn),
+        args: stringsOr(args),
       })
     }
     load()

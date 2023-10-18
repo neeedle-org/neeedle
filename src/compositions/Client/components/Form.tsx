@@ -1,5 +1,5 @@
 import { ContractTransaction } from 'ethers'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useWalletModal } from 'src/components/WalletModal'
 import { errorColor } from 'src/components/WalletModal/colors'
@@ -54,10 +54,17 @@ export const Form: FC<FormProps> = ({
     setResponse(undefined)
     setBytesEncoded(encodeToBytes(method, getValues()))
   }
+
+  useEffect(() => {
+    if (!settings.fn || settings.fn !== method.name || !settings.args?.length)
+      return
+    methods.reset({ args: settings.args })
+  }, [method, settings.fn, settings.args])
+
   return (
     <FormProvider key={method.name} {...methods}>
       <form onSubmit={handleSubmit(submit)}>
-        <Section>
+        <Section open={settings.fn === method.name}>
           <Caption>
             <h4>{method.name}</h4>
             <Doc>{doc?.details || ''}</Doc>

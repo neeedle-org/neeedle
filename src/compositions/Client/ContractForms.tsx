@@ -43,9 +43,11 @@ const FormItem: FC<{ form: typeof FORMS[number] } & ContractFormsProps> = ({
   isCallable,
   changeChain,
 }) => {
-  const methods = abi[form.key]
   const { replaceQueryParam } = useSettings()
   const { settings, setSettings } = useSettingsStore()
+  const methods = abi[form.key].filter(
+    (method) => !settings.fn || method.name === settings.fn,
+  )
   const [name, setName] = useState<string>()
   useEffect(() => {
     if (name) return
@@ -56,17 +58,19 @@ const FormItem: FC<{ form: typeof FORMS[number] } & ContractFormsProps> = ({
   return (
     <>
       <h3>{form.label}</h3>
-      <InputDiv>
-        <input
-          placeholder="function name..."
-          value={name}
-          onChange={({ target: { value } }) => setName(value)}
-          onBlur={() => {
-            setSettings({ filter: { [form.key]: name } })
-            replaceQueryParam([{ key: form.key, value: name }])
-          }}
-        />
-      </InputDiv>
+      {!settings.fn && (
+        <InputDiv>
+          <input
+            placeholder="function name..."
+            value={name}
+            onChange={({ target: { value } }) => setName(value)}
+            onBlur={() => {
+              setSettings({ filter: { [form.key]: name } })
+              replaceQueryParam([{ key: form.key, value: name }])
+            }}
+          />
+        </InputDiv>
+      )}
       {methods
         .filter((method) => !name || method.name.includes(name))
         .map((method) => (

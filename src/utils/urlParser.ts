@@ -29,6 +29,8 @@ export type QueryParams = {
   nonpayables: string
   views: string
   purefunctions: string
+  fn: string
+  args: string[]
 }
 export type QueryParamKey = keyof QueryParams
 
@@ -45,5 +47,14 @@ export const numberOr = (
   defaultValue?: number,
 ): number | undefined => {
   if (!Number.isNaN(+arg)) return +arg
+  return defaultValue
+}
+
+export const stringsOr = (
+  arg: any,
+  defaultValue?: string[],
+): string[] | undefined => {
+  if (Array.isArray(arg)) return arg.map((item) => item.toString())
+  if (typeof arg === 'string') return [arg]
   return defaultValue
 }

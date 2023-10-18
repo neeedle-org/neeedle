@@ -33,24 +33,50 @@ export const Client = () => {
       <Layout>
         <Header />
         <main>
-          <Settings />
-          <h2>Functions</h2>
-          {abi && contract ? (
-            <ContractForms
-              abi={abi}
-              contract={contract}
-              isCallable={isCallable}
-              changeChain={
-                isNetworkWrong
-                  ? () =>
-                      changeChain(settings.chainId).catch((err) =>
-                        openMessageModal({ message: err }),
-                      )
-                  : undefined
-              }
-            />
+          {settings.fn ? (
+            <>
+              <h2>Functions</h2>
+              {abi && contract ? (
+                <ContractForms
+                  abi={abi}
+                  contract={contract}
+                  isCallable={isCallable}
+                  changeChain={
+                    isNetworkWrong
+                      ? () =>
+                          changeChain(settings.chainId).catch((err) =>
+                            openMessageModal({ message: err }),
+                          )
+                      : undefined
+                  }
+                />
+              ) : (
+                <EmptyMessage>ABI or Contract not loaded.</EmptyMessage>
+              )}
+              <Settings />
+            </>
           ) : (
-            <EmptyMessage>ABI or Contract not loaded.</EmptyMessage>
+            <>
+              <Settings />
+              <h2>Functions</h2>
+              {abi && contract ? (
+                <ContractForms
+                  abi={abi}
+                  contract={contract}
+                  isCallable={isCallable}
+                  changeChain={
+                    isNetworkWrong
+                      ? () =>
+                          changeChain(settings.chainId).catch((err) =>
+                            openMessageModal({ message: err }),
+                          )
+                      : undefined
+                  }
+                />
+              ) : (
+                <EmptyMessage>ABI or Contract not loaded.</EmptyMessage>
+              )}
+            </>
           )}
         </main>
         <footer>

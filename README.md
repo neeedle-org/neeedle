@@ -11,12 +11,15 @@ No user registration. No data sending to other servers.
 And also, you can share your smart contract client with URL.
 When you set up smart contract information in Neeedle, the URL will automatically change to a shareable one.
 
-| Parameter       | Type   | Definition                                                                                                                                                                                      |
-| --------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| abiUrl          | string | URL of your abi(json) .<br>You can also set the URL of the Github view page(you will want to set this the most). <br>ex: https://github.com/neeedle-org/neeedle/blob/main/public/abi/ERC20.json |
-| contractAddress | string | Ethererum Address of your smart contract implements the abi.                                                                                                                                    |
-| chainId         | number | ID of the chain your smart contract deployed.                                                                                                                                                   |
-| payables        | string | Show only payable functions whose name includes this value.                                                                                                                                     |
-| nonpayables     | string | Show only non-payable functions whose name includes this value.                                                                                                                                 |
-| views           | string | Show only view functions whose name includes this value.                                                                                                                                        |
-| purefunctions   | string | Show only pure functions whose name includes this value.                                                                                                                                        |
+| Parameter       | Type      | Definition                                                                                                                                                                                      |
+| --------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| abiUrl          | string    | URL of your abi(json) .<br>You can also set the URL of the Github view page(you will want to set this the most). <br>ex: https://github.com/neeedle-org/neeedle/blob/main/public/abi/ERC20.json |
+| contractAddress | string    | Ethererum Address of your smart contract implements the abi.                                                                                                                                    |
+| chainId         | number    | ID of the chain your smart contract deployed.                                                                                                                                                   |
+| payables        | string    | Show only payable functions whose name includes this value.                                                                                                                                     |
+| nonpayables     | string    | Show only non-payable functions whose name includes this value.                                                                                                                                 |
+| views           | string    | Show only view functions whose name includes this value.                                                                                                                                        |
+| purefunctions   | string    | Show only pure functions whose name includes this value.                                                                                                                                        |
+| rpcUrl          | string    | URL of RPC to call view functions without connecting to the wallet.                                                                                                                             |
+| fn              | string    | Show only the function whose name matches this value.                                                                                                                                           |
+| args            | string(s) | Set as arguments preset value. Must be passed with `fn`.                                                                                                                                        |

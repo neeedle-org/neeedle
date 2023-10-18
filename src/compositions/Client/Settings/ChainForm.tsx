@@ -28,7 +28,6 @@ export const ChainForm: FC<ChainFormProps> = ({ replaceQueryParam }) => {
       <ChainControlForm
         chains={chains}
         onChange={(chainId) => {
-          console.log(chainId)
           setSettings({ chainId })
           replaceQueryParam([{ key: 'chainId', value: `${chainId || ''}` }])
         }}

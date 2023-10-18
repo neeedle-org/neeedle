@@ -14,6 +14,8 @@ type Settings = {
     views: string
     purefunctions: string
   }>
+  fn?: string
+  args?: string[]
 }
 
 const DEFAULT_SETTINGS: Settings = {
