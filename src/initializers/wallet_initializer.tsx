@@ -1,8 +1,10 @@
-import { useCallback, useEffect } from 'react'
+import { FC, ReactNode, useCallback, useEffect } from 'react'
 import { injected, isMetaMaskInstalled, useMetamask } from 'src/external'
 import { useWalletStore } from 'src/stores'
 
-export const WalletInitializer: React.FC = ({ children }) => {
+export const WalletInitializer: FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const { disconnect } = useMetamask()
   const { active, connect, signer } = useWalletStore()
 

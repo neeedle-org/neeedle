@@ -18,10 +18,20 @@ type ContractFormsProps = {
   isCallable: boolean | undefined
   changeChain?: VoidFunction
 }
-export const ContractForms: FC<ContractFormsProps> = (props) => (
+export const ContractForms: FC<ContractFormsProps> = ({
+  changeChain,
+  isCallable,
+  ...props
+}) => (
   <>
     {FORMS.map((form) => (
-      <FormItem key={form.key} form={form} {...props} />
+      <FormItem
+        key={form.key}
+        form={form}
+        {...props}
+        isCallable={form.key === 'views' || isCallable}
+        changeChain={form.key === 'views' ? undefined : changeChain}
+      />
     ))}
   </>
 )

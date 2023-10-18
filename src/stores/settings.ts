@@ -1,9 +1,12 @@
+import { ethers } from 'ethers'
+import { useMemo } from 'react'
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil'
 import { DEFAULT_GAS_LIMIT, UNITS } from 'src/constants/misc'
 
 type Settings = {
   gasLimit: string
   unit: typeof UNITS[number]['value']
+  rpcUrl?: string
   chainId?: number
   filter: Partial<{
     payables: string
@@ -17,9 +20,10 @@ const DEFAULT_SETTINGS: Settings = {
   gasLimit: DEFAULT_GAS_LIMIT,
   unit: 'ether',
   chainId: undefined,
+  rpcUrl: undefined,
   filter: {},
 }
-const settingsAtom = atom<Settings>({
+export const settingsAtom = atom<Settings>({
   key: 'settings',
   default: DEFAULT_SETTINGS,
   dangerouslyAllowMutability: true,
@@ -35,8 +39,13 @@ export const useSettingsStore = () => {
       filter: { ...settings.filter, ...filter },
     })
 
+  const provider = useMemo(() => {
+    if (!settings.rpcUrl) return undefined
+    return new ethers.providers.JsonRpcProvider(settings.rpcUrl)
+  }, [settings.rpcUrl])
   return {
     settings,
     setSettings,
+    provider,
   }
 }

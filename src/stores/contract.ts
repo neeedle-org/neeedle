@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react'
 import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil'
 import { ABIModel, ContractModel } from 'src/models'
 import { ABISpec } from 'src/types/abi'
+import { useSettingsStore } from './settings'
 import { useWalletStore } from './wallet'
 
 const abiJsonStrAtom = atom<string | undefined>({
@@ -20,7 +21,8 @@ const contractAddressAtom = atom<string | undefined>({
   default: undefined,
 })
 export const useContractStore = () => {
-  const { signer } = useWalletStore()
+  const { signer, chainId } = useWalletStore()
+  const { settings, provider } = useSettingsStore()
   const contractAddress = useRecoilValue(contractAddressAtom)
   const setContractAddress = useSetRecoilState(contractAddressAtom)
 
@@ -36,10 +38,10 @@ export const useContractStore = () => {
         ? new ContractModel({
             address: contractAddress,
             abi: abi.abi,
-            signerOrProvider: signer,
+            signerOrProvider: settings.chainId === chainId ? signer : provider,
           })
         : undefined,
-    [contractAddress, abi, signer],
+    [contractAddress, abi, signer, chainId, settings],
   )
 
   return {

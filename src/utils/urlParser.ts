@@ -24,6 +24,7 @@ export type QueryParams = {
   abiUrl: string
   contractAddress: string
   chainId: number
+  rpcUrl: string
   payables: string
   nonpayables: string
   views: string

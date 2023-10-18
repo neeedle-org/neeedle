@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { Link } from 'src/elements/Link'
 import { useChainsStore } from 'src/stores/chains'
 import { useSettingsStore } from 'src/stores/settings'
@@ -13,12 +13,7 @@ type ChainFormProps = {
 }
 export const ChainForm: FC<ChainFormProps> = ({ replaceQueryParam }) => {
   const { settings, setSettings } = useSettingsStore()
-  const { chains, setChains } = useChainsStore()
-  useEffect(() => {
-    fetch('https://chainid.network/chains.json').then((res) =>
-      res.json().then(setChains),
-    )
-  }, [])
+  const { chains } = useChainsStore()
   const chain = chains.find((each) => each.chainId === settings.chainId)
   return (
     <ChainFormItem

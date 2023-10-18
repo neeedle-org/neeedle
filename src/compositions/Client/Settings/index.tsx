@@ -4,6 +4,7 @@ import { ABIForm } from './ABIForm'
 import { AddressForm } from './AddressForm'
 import { ChainForm } from './ChainForm'
 import { MiscForm } from './MiscForm'
+import { RpcForm } from './RpcForm'
 import { useSettings } from './useSettings'
 
 export const Settings: FC = () => {
@@ -40,6 +41,7 @@ export const Settings: FC = () => {
         updateContractAddress={updateContractAddress}
       />
       <ChainForm replaceQueryParam={replaceQueryParam} />
+      <RpcForm replaceQueryParam={replaceQueryParam} />
       <MiscForm />
     </Layout>
   )

@@ -7,6 +7,7 @@ import { Favicon } from 'src/components/Favicon'
 import { getLibrary } from 'src/external'
 import { ModalPortal } from 'src/hooks/useModal'
 import { WalletInitializer } from 'src/initializers'
+import { chainsAtom, rpcsAtom } from 'src/stores/chains'
 import 'src/styles/fonts.css'
 import { GlobalStyles } from 'src/styles/global-styles'
 import 'src/styles/globals.css'
@@ -20,7 +21,21 @@ const MyApp: FC<AppProps> = ({ Component, pageProps, router: { asPath } }) => {
   return (
     <>
       <Web3ReactProvider getLibrary={getLibrary}>
-        <RecoilRoot>
+        <RecoilRoot
+          initializeState={(snapshot) => {
+            const release = snapshot.retain()
+            Promise.all([
+              import('public/libs/extraRpcs.js').then((rpcs) => {
+                snapshot.set(rpcsAtom, rpcs.extraRpcs || {})
+              }),
+              fetch('https://chainid.network/chains.json').then((res) =>
+                res.json().then((chains) => {
+                  snapshot.set(chainsAtom, chains)
+                }),
+              ),
+            ]).finally(() => release())
+          }}
+        >
           <WalletInitializer>
             <Favicon />
             <ThemeProvider theme={DEFAULT_THEME}>
