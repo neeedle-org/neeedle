@@ -37,7 +37,7 @@ export const WalletInitializer: FC<{ children: ReactNode }> = ({
     }
 
     return () => {
-      if (ethereum && ethereum.removeListener) {
+      if (ethereum) {
         ethereum.removeAllListeners('chainChanged')
         ethereum.removeAllListeners('accountsChanged')
       }

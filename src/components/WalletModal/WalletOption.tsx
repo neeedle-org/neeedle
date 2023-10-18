@@ -7,7 +7,7 @@ import { black, purple, white } from './colors'
 
 type Props = {
   type: WalletType
-  Icon: SvgrComponent
+  Icon: any
   notInstalled?: boolean
   hasEnabled?: boolean
   onAlreadyEnabled?: () => void

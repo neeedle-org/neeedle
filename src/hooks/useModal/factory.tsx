@@ -33,7 +33,7 @@ export const createModal = (
     dangerouslyAllowMutability: true,
   })
 
-  const useModal: UseModalInterface = (Component) => {
+  const useModal: any = (Component: any) => {
     const open = useRecoilCallback(
       ({ set }) =>
         (props = {}) => {
