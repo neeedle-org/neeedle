@@ -70,7 +70,6 @@ const RpcControlForm: FC<{
         <input
           value={customRpcURL}
           onChange={({ target: { value } }) => setCustomRpcURL(value)}
-          type="number"
         />
       </div>
       <button
