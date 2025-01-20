@@ -15,7 +15,7 @@ export const RpcForm: FC<RpcFormProps> = ({ replaceQueryParam }) => {
   const { settings, setSettings } = useSettingsStore()
   const { rpcs, chains } = useChainsStore()
   const chain = chains.find((each) => each.chainId === settings.chainId)
-  const chainRpcs = (chain && rpcs[chain.chainId]?.rpcs) || []
+  const chainRpcs = (chain?.chainId && rpcs[chain.chainId]?.rpcs) || []
   return (
     <RpcFormItem title="RPC" output={settings.rpcUrl || ''} errorMessage={''}>
       <RpcControlForm
