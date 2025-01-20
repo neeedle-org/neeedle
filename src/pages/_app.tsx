@@ -1,7 +1,7 @@
 import { Web3ReactProvider } from '@web3-react/core'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { RecoilRoot } from 'recoil'
 import { Favicon } from 'src/components/Favicon'
 import { getLibrary } from 'src/external'
@@ -18,6 +18,7 @@ import { ThemeProvider } from 'styled-components'
 
 const MyApp: FC<AppProps> = ({ Component, pageProps, router: { asPath } }) => {
   const pageUrl = pathToUrl(asPath)
+  const [initialized, setInitialized] = useState(false)
   return (
     <>
       <Web3ReactProvider getLibrary={getLibrary}>
@@ -25,15 +26,27 @@ const MyApp: FC<AppProps> = ({ Component, pageProps, router: { asPath } }) => {
           initializeState={(snapshot) => {
             const release = snapshot.retain()
             Promise.all([
-              import('public/libs/extraRpcs.js').then((rpcs) => {
-                snapshot.set(rpcsAtom, rpcs.extraRpcs || {})
-              }),
               fetch('https://chainid.network/chains.json').then((res) =>
-                res.json().then((chains) => {
+                res.json().then((chains: Chain[]) => {
                   snapshot.set(chainsAtom, chains)
+                  snapshot.set(
+                    rpcsAtom,
+                    chains.reduce<
+                      Partial<
+                        Record<number, { rpcs: (string | { url: string })[] }>
+                      >
+                    >((acc, chain) => {
+                      if (!chain?.chainId) return acc
+                      acc[chain.chainId] = { rpcs: chain.rpc || [] }
+                      return acc
+                    }, {}),
+                  )
                 }),
               ),
-            ]).finally(() => release())
+            ]).finally(() => {
+              release()
+              setInitialized(true)
+            })
           }}
         >
           <WalletInitializer>

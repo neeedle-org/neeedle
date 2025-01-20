@@ -1,11 +1,15 @@
-type Chain = {
-  name: string
+type Chain = Partial<{
+  chain: string
   chainId: number
-  shortName: string
-  networkId: number
-  nativeCurrency: { decimals: 18; name: string; symbol: string }
-  rpc: string[]
+  explorers: Partial<{ name: string; url: string; standard: string }>[]
   faucets: string[]
   infoURL: string
-  explorers: { name: string; url: string; standard: string }[]
-}
+  name: string
+  nativeCurrency: Partial<{ name: string; symbol: string; decimals: number }>
+  networkId: number
+  parent: Partial<{ type: string; chain: string }>
+  rpc: string[]
+  shortName: string
+  slip44: number
+  title: string
+}>
